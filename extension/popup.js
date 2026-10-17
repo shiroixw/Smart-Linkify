@@ -1,5 +1,19 @@
 // 智能超链接识别 - 弹出窗口脚本
 
+// 内容脚本无法（或不应）在这些页面生效
+const BLOCKED_PROTOCOLS = [
+	'chrome:',
+	'chrome-extension:',
+	'chrome-untrusted:',
+	'edge:',
+	'about:',
+	'brave:',
+	'file:',
+	'devtools:',
+	'view-source:',
+	'moz-extension:',
+]
+
 // 初始化主题（立即执行，避免闪烁）
 ;(function () {
 	chrome.storage.sync.get(['config'], function (result) {
@@ -40,21 +54,21 @@ document.addEventListener('DOMContentLoaded', function () {
 	chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
 		if (!tabs[0] || !tabs[0].url) return
 
-		const url = tabs[0].url
-		const isSpecialPage = /^(chrome|about|edge|brave|file):/.test(url)
-
-		if (isSpecialPage) {
-			showUnsupported()
-			return
-		}
-
+		let parsedUrl
 		try {
-			currentHostname = new URL(url).hostname
-			currentDomainEl.textContent = currentHostname
+			parsedUrl = new URL(tabs[0].url)
 		} catch {
 			showUnsupported()
 			return
 		}
+
+		if (BLOCKED_PROTOCOLS.indexOf(parsedUrl.protocol) !== -1) {
+			showUnsupported()
+			return
+		}
+
+		currentHostname = parsedUrl.hostname
+		currentDomainEl.textContent = currentHostname
 
 		// 检查当前站点是否在白名单中
 		chrome.storage.sync.get(['config'], function (result) {
