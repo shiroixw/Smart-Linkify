@@ -20,7 +20,8 @@
 	],
 	"scripts": {
 		"test": "node --test test/*.test.js",
-		"pack": "echo \"Use Chrome Extensions page to pack the extension\"",
+		"pack": "node scripts/pack.js",
+		"release:notes": "node scripts/extract-changelog.js",
 		"icons": "node scripts/generate-icons.js",
 		"promo": "node scripts/render-promo.js",
 		"lint": "npx --yes eslint@9 .",
