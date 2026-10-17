@@ -4,19 +4,24 @@
 
 ## 🌐 在线访问
 
--   **官网地址：** [待部署]
--   **GitHub Pages：** [待配置]
+-   **官网地址：** https://smart-linkify.vercel.app/
+-   **部署方式：** Vercel，根目录指向 `website/`
 
 ## 📁 目录结构
 
 ```
 website/
-├── index.html          # 官网首页
+├── index.html          # 首页
+├── docs.html           # 文档
+├── changelog.html      # 更新日志
+├── privacy.html        # 隐私政策
 ├── css/
-│   └── style.css      # 样式文件
+│   └── style.css       # 设计 token + 全站样式
 ├── js/
-│   └── main.js        # 脚本文件
-└── images/            # 图片资源
+│   ├── main.js         # 主题 / 导航 / FAQ / 滚动交互
+│   ├── i18n.js         # 中英文案
+│   └── changelog.js    # 更新日志渲染
+└── images/             # 图片资源
 ```
 
 ## ✨ 功能特性
@@ -30,9 +35,16 @@ website/
 ## 🛠️ 技术栈
 
 -   **HTML5** - 语义化标签
--   **CSS3** - 现代样式和动画
--   **JavaScript** - 原生 ES6+
--   **Font Awesome** - 图标库
+-   **CSS3** - 设计 token（颜色 / 间距 / 圆角 / 动效单一来源）+ 现代布局
+-   **JavaScript** - 原生 ES6+，无框架、无构建
+-   **图标策略**
+    -   功能性图标（移动端菜单开关等）：**内联 SVG**，不依赖网络
+    -   装饰性图标（GitHub、功能卡片等）：Font Awesome 6（CDN）
+
+## 🌗 主题
+
+`js/main.js` 把用户选择或系统偏好解析后写入 `<html data-theme>`，CSS 只保留 `[data-theme='dark']` 一层覆盖，不再用 `@media (prefers-color-scheme)` 重复一份变量。
+
 
 ## 🚀 本地运行
 
@@ -120,7 +132,14 @@ vercel
 
 ### 更新版本号
 
-在 `index.html` 中搜索 "1.0.0" 并更新为新版本。
+不要手改 `index.html`。以 `package.json` 的 `version` 为准，执行：
+
+```bash
+npm run sync-version
+```
+
+该脚本会同步 `manifest.json`、`index.html`（`#siteVersionDisplay`）与两份 README 的版本徽章。
+
 
 ### 添加新功能
 

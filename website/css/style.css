@@ -109,33 +109,9 @@
 	--border-color: var(--color-border);
 }
 
-@media (prefers-color-scheme: dark) {
-	html:not([data-theme='light']) {
-		--color-bg: #0a0a0a;
-		--color-bg-subtle: #111113;
-		--color-bg-muted: #1a1a1d;
-		--color-border: #2a2a2d;
-		--color-border-strong: #3a3a3d;
-		--color-text: #f4f4f5;
-		--color-text-muted: #a1a1aa;
-		--color-text-subtle: #71717a;
-		--color-accent: #60a5fa;
-		--color-accent-hover: #93bbfd;
-		--color-accent-soft: #1e3a5f;
-
-		--primary-color: var(--color-accent);
-		--secondary-color: var(--color-accent-hover);
-		--text-primary: var(--color-text);
-		--text-secondary: var(--color-text-muted);
-		--text-dark: var(--color-text);
-		--text-light: var(--color-text-muted);
-		--bg-primary: var(--color-bg);
-		--bg-secondary: var(--color-bg-muted);
-		--bg-light: var(--color-bg-muted);
-		--white: var(--color-bg);
-		--border-color: var(--color-border);
-	}
-}
+/* 深色只有一份：'auto' 由 js/main.js 解析后写到 <html data-theme>，
+   这里不再重复一遍 prefers-color-scheme 覆盖。
+   代价是需要 JS 参与首屏上色，收益是 token 只维护一处。 */
 
 /* ===== Reduced Motion ===== */
 @media (prefers-reduced-motion: reduce) {
@@ -240,11 +216,30 @@ body {
 
 .mobile-menu-toggle {
 	display: none;
+	padding: var(--space-1);
 	background: none;
 	border: none;
-	font-size: 20px;
 	cursor: pointer;
 	color: var(--color-text);
+}
+
+.mobile-menu-toggle svg {
+	display: block;
+	width: 22px;
+	height: 22px;
+}
+
+/* 两态由 aria-expanded 驱动，不依赖图标字体 */
+.mobile-menu-toggle .mobile-menu-icon-close {
+	display: none;
+}
+
+.mobile-menu-toggle[aria-expanded='true'] .mobile-menu-icon-open {
+	display: none;
+}
+
+.mobile-menu-toggle[aria-expanded='true'] .mobile-menu-icon-close {
+	display: block;
 }
 
 /* ===== Hero ===== */
