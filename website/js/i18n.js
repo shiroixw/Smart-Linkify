@@ -65,6 +65,14 @@ const i18n = {
 			'demo.after.text3':
 				'查看项目 <a href="https://github.com/example/project" target="_blank">https://github.com/example/project</a>',
 
+			// 真实界面
+			'screens.title': '真实界面',
+			'screens.subtitle': '插件里你每天会用到的两个界面',
+			'screens.popup': '弹出面板：本站一键开关，实时显示已转换链接数',
+			'screens.popup.alt': '弹出面板：本站开关与已转换链接统计',
+			'screens.options': '设置页：精确匹配、排除文件扩展名、站点白名单',
+			'screens.options.alt': '设置页：匹配精度与站点白名单',
+
 			// 使用场景
 			'usecases.title': '使用场景',
 			'usecases.subtitle': '适用于各种网页浏览场景',
@@ -319,6 +327,17 @@ const i18n = {
 				'Or send email to <a href="mailto:contact@example.com">contact@example.com</a>',
 			'demo.after.text3':
 				'Check out <a href="https://github.com/example/project" target="_blank">https://github.com/example/project</a>',
+
+			// 真实界面
+			'screens.title': 'Inside the extension',
+			'screens.subtitle': 'The two screens you will actually use every day',
+			'screens.popup':
+				'Popup: one switch for the current site, with a live converted-link count',
+			'screens.popup.alt':
+				'Popup: per-site switch and converted-link statistics',
+			'screens.options':
+				'Options: strict matching, excluded file extensions, allow-list',
+			'screens.options.alt': 'Options: matching precision and site allow-list',
 
 			// 使用场景
 			'usecases.title': 'Use Cases',
@@ -598,6 +617,16 @@ const i18n = {
 			const translation = this.t(key)
 			if (translation) {
 				el.setAttribute('aria-label', translation)
+			}
+		})
+
+		// 更新 img 的 alt 属性
+		const alts = document.querySelectorAll('[data-i18n-alt]')
+		alts.forEach((el) => {
+			const key = el.getAttribute('data-i18n-alt')
+			const translation = this.t(key)
+			if (translation) {
+				el.setAttribute('alt', translation)
 			}
 		})
 	},

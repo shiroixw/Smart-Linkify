@@ -8,7 +8,41 @@
 			content="智能超链接识别 - 自动将网页中的纯文本 URL 转换为可点击的超链接"
 		/>
 		<meta name="keywords" content="Chrome扩展,超链接,URL转换,浏览器插件" />
+		<meta name="theme-color" content="#2563eb" />
 		<link rel="icon" href="./favicon.ico" type="image/x-icon" />
+		<link rel="apple-touch-icon" href="./images/apple-touch-icon.png" />
+		<!-- 社交分享卡片（og / twitter） -->
+		<meta property="og:type" content="website" />
+		<meta property="og:site_name" content="智能超链接识别" />
+		<meta
+			property="og:title"
+			content="智能超链接识别 - 让网页里的每一条链接都能点"
+		/>
+		<meta
+			property="og:description"
+			content="自动将网页中的纯文本 URL 转换为可点击的超链接"
+		/>
+		<meta property="og:url" content="https://smart-linkify.vercel.app/" />
+		<meta
+			property="og:image"
+			content="https://smart-linkify.vercel.app/images/og-1280x640.png"
+		/>
+		<meta property="og:image:width" content="1280" />
+		<meta property="og:image:height" content="640" />
+		<meta property="og:locale" content="zh_CN" />
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta
+			name="twitter:title"
+			content="智能超链接识别 - 让网页里的每一条链接都能点"
+		/>
+		<meta
+			name="twitter:description"
+			content="自动将网页中的纯文本 URL 转换为可点击的超链接"
+		/>
+		<meta
+			name="twitter:image"
+			content="https://smart-linkify.vercel.app/images/og-1280x640.png"
+		/>
 		<title>智能超链接识别 - Smart Linkify – Instant hyperlink conversion</title>
 		<link rel="stylesheet" href="css/style.css" />
 		<link
@@ -359,6 +393,52 @@
 							</p>
 						</div>
 					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- 真实界面 -->
+		<section id="screens" class="screens">
+			<div class="container">
+				<div class="section-header">
+					<h2 class="section-title" data-i18n="screens.title">
+						真实界面
+					</h2>
+					<p class="section-subtitle" data-i18n="screens.subtitle">
+						插件里你每天会用到的两个界面
+					</p>
+				</div>
+				<div class="screens-grid">
+					<figure class="screen-card screen-card--popup">
+						<div class="screen-frame">
+							<img
+								src="images/screen-popup.png"
+								width="640"
+								height="1070"
+								loading="lazy"
+								alt="弹出面板：本站开关与已转换链接统计"
+								data-i18n-alt="screens.popup.alt"
+							/>
+						</div>
+						<figcaption data-i18n="screens.popup">
+							弹出面板：本站一键开关，实时显示已转换链接数
+						</figcaption>
+					</figure>
+					<figure class="screen-card screen-card--options">
+						<div class="screen-frame">
+							<img
+								src="images/screen-options.png"
+								width="1000"
+								height="1564"
+								loading="lazy"
+								alt="设置页：匹配精度与站点白名单"
+								data-i18n-alt="screens.options.alt"
+							/>
+						</div>
+						<figcaption data-i18n="screens.options">
+							设置页：精确匹配、排除文件扩展名、站点白名单
+						</figcaption>
+					</figure>
 				</div>
 			</div>
 		</section>
