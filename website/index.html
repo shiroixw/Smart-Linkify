@@ -221,39 +221,81 @@
 						</div>
 					</div>
 					<div class="hero-image">
-						<div class="browser-mockup">
-							<div class="browser-header">
-								<div class="browser-dots">
-									<span></span><span></span><span></span>
+						<div class="hero-scene">
+							<div class="hero-scene__glow" aria-hidden="true"></div>
+
+							<div class="browser-mockup hero-scene__window">
+								<div class="browser-header">
+									<div class="browser-dots">
+										<span></span><span></span><span></span>
+									</div>
+									<div class="browser-url">
+										blog.example.com/release-notes
+									</div>
 								</div>
-								<div class="browser-url">
-									chrome://extensions
+								<div class="browser-content">
+									<div class="scene-article">
+										<span
+											class="scene-eyebrow"
+											data-i18n="hero.scene.eyebrow"
+											>发布说明</span
+										>
+										<h3
+											class="scene-title"
+											data-i18n="hero.scene.title"
+										>
+											v1.1.0 · 更稳的链接识别
+										</h3>
+										<p
+											class="scene-text"
+											data-i18n="hero.scene.body"
+										>
+											修复了动态内容里漏转的链接，新增站点白名单与更严格的匹配规则。
+										</p>
+										<p
+											class="scene-text"
+											data-i18n="hero.scene.link1"
+										>
+											完整变更见
+											<a
+												href="https://github.com/shiroixw/Smart-Linkify/releases"
+												target="_blank"
+												rel="noopener"
+												>github.com/shiroixw/Smart-Linkify/releases</a
+											>
+										</p>
+										<p
+											class="scene-text"
+											data-i18n="hero.scene.link2"
+										>
+											遇到问题？
+											<a
+												href="https://github.com/shiroixw/Smart-Linkify/issues"
+												target="_blank"
+												rel="noopener"
+												>github.com/shiroixw/Smart-Linkify/issues</a
+											>
+										</p>
+									</div>
 								</div>
 							</div>
-							<div class="browser-content">
-								<div class="extension-card">
-									<div class="extension-icon">
-										<img
-											src="images/icon512.png"
-											alt="Extension Icon"
-										/>
-									</div>
-									<div class="extension-info">
-										<h3 data-i18n="hero.extension.name">
-											智能超链接识别
-										</h3>
-										<p data-i18n="hero.extension.desc">
-											自动转换纯文本 URL 为可点击链接
-										</p>
-										<div class="extension-status">
-											<span
-												class="status-badge active"
-												data-i18n="hero.extension.enabled"
-												>已启用</span
-											>
-										</div>
-									</div>
+
+							<div class="hero-scene__chip">
+								<img
+									src="images/icon512.png"
+									alt=""
+									width="32"
+									height="32"
+								/>
+								<div class="chip-text">
+									<strong data-i18n="hero.scene.chip.title"
+										>本站已启用</strong
+									>
+									<span data-i18n="hero.scene.chip.meta"
+										>4 条链接已转换</span
+									>
 								</div>
+								<span class="chip-switch" aria-hidden="true"></span>
 							</div>
 						</div>
 					</div>

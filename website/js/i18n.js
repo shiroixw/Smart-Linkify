@@ -24,9 +24,17 @@ const i18n = {
 			'hero.free': '免费',
 			'hero.opensource': '开源项目',
 			'hero.license': '许可证',
-			'hero.extension.name': '智能超链接识别',
-			'hero.extension.desc': '自动转换纯文本 URL 为可点击链接',
-			'hero.extension.enabled': '已启用',
+			// 首屏场景（网页 + 悬浮状态卡）
+			'hero.scene.eyebrow': '发布说明',
+			'hero.scene.title': 'v1.1.0 · 更稳的链接识别',
+			'hero.scene.body':
+				'修复了动态内容里漏转的链接，新增站点白名单与更严格的匹配规则。',
+			'hero.scene.link1':
+				'完整变更见 <a href="https://github.com/shiroixw/Smart-Linkify/releases" target="_blank" rel="noopener">github.com/shiroixw/Smart-Linkify/releases</a>',
+			'hero.scene.link2':
+				'遇到问题？<a href="https://github.com/shiroixw/Smart-Linkify/issues" target="_blank" rel="noopener">github.com/shiroixw/Smart-Linkify/issues</a>',
+			'hero.scene.chip.title': '本站已启用',
+			'hero.scene.chip.meta': '4 条链接已转换',
 
 			// 功能特性
 			'features.title': '核心功能',
@@ -286,10 +294,17 @@ const i18n = {
 			'hero.free': 'Free',
 			'hero.opensource': 'Open Source',
 			'hero.license': 'License',
-			'hero.extension.name': 'Smart Linkify – Instant hyperlink conversion',
-			'hero.extension.desc':
-				'Auto-convert plain text URLs to clickable links',
-			'hero.extension.enabled': 'Enabled',
+			// 首屏场景（网页 + 悬浮状态卡）
+			'hero.scene.eyebrow': 'Release notes',
+			'hero.scene.title': 'v1.1.0 · steadier link detection',
+			'hero.scene.body':
+				'Fixes links missed in dynamic content, plus a site allow-list and stricter matching.',
+			'hero.scene.link1':
+				'Full changelog: <a href="https://github.com/shiroixw/Smart-Linkify/releases" target="_blank" rel="noopener">github.com/shiroixw/Smart-Linkify/releases</a>',
+			'hero.scene.link2':
+				'Found a bug? <a href="https://github.com/shiroixw/Smart-Linkify/issues" target="_blank" rel="noopener">github.com/shiroixw/Smart-Linkify/issues</a>',
+			'hero.scene.chip.title': 'Enabled on this site',
+			'hero.scene.chip.meta': '4 links converted',
 
 			// 功能特性
 			'features.title': 'Core Features',
