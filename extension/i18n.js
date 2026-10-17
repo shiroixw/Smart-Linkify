@@ -1,5 +1,6 @@
 // 智能超链接识别 - 扩展国际化模块
 
+/* exported i18n */
 const i18n = {
 	// 翻译词典
 	translations: {

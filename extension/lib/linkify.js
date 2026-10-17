@@ -11,7 +11,7 @@
 		module.exports = api
 	}
 	if (root) {
-		root.SmartLinkify = api
+		Object.assign(root, { SmartLinkify: api })
 	}
 })(typeof globalThis !== 'undefined' ? globalThis : this, function () {
 	'use strict'
@@ -47,6 +47,7 @@
 
 	// 尾部需要剥离的标点（中英文）
 	const TRAILING_PUNCT_RE = /[.,;:!?'"`。，、；：！？…·》」』】〉》]$/
+	/** @type {Record<string, string>} */
 	const CLOSERS = { ')': '(', ']': '[', '}': '{' }
 
 	// 常见"文件后缀"而非 TLD，用于严格模式下排除 config.json / app.js 之类
@@ -155,6 +156,10 @@
 		/** @type {Array<{index: number, length: number, text: string, type: 'url'|'email', href: string}>} */
 		const candidates = []
 
+		/**
+		 * @param {RegExp} re
+		 * @param {'url' | 'email'} type
+		 */
 		const collect = (re, type) => {
 			re.lastIndex = 0
 			let match
