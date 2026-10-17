@@ -114,8 +114,8 @@ const i18n = {
 		},
 		en: {
 			// Popup 页面
-			'popup.title': 'Smart Linkify – Instant hyperlink conversion',
-			'popup.subtitle': 'Smart Linkify – Instant hyperlink conversion',
+			'popup.title': 'Smart Linkify',
+			'popup.subtitle': 'Instant hyperlink conversion',
 			'popup.status.enabled': 'Enabled',
 			'popup.status.disabled': 'Not Enabled',
 			'popup.status.unsupported': 'Not Supported',
@@ -131,8 +131,8 @@ const i18n = {
 			'popup.btn.refresh': 'Refresh Page',
 
 		// Options 页面
-			'options.title': 'Smart Linkify – Instant hyperlink conversion - Settings',
-			'options.subtitle': 'Smart Linkify – Instant hyperlink conversion Settings',
+			'options.title': 'Settings',
+			'options.subtitle': 'Smart Linkify – Instant hyperlink conversion',
 
 		// 基本设置
 		'options.basic.title': 'Basic Settings',
