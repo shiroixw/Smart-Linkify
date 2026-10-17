@@ -1,0 +1,139 @@
+/*
+ * Smart Linkify 设计 token（扩展 UI 的唯一视觉来源）
+ *
+ * 规则：
+ * - 组件样式只允许引用这里的变量，禁止硬编码颜色 / 圆角 / 时长
+ * - 暗色只有一份：由 shared/theme.js 解析 auto 后写到 <html data-theme>，
+ *   因此不再需要 @media (prefers-color-scheme) 的重复覆盖
+ * - 颜色命名按语义（surface / text / accent / danger…），不按具体色值命名
+ */
+
+:root {
+	/* 字体 */
+	--sl-font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+		'Helvetica Neue', Arial, sans-serif;
+	--sl-font-mono: 'Courier New', monospace;
+
+	/* 背景与表面 */
+	--sl-color-bg: #f5f5f5;
+	--sl-color-surface: #ffffff;
+	--sl-color-surface-muted: #f8f9fa;
+	--sl-color-surface-accent: #f0f5ff;
+
+	/* 描边 */
+	--sl-color-border: #e0e0e0;
+	--sl-color-border-accent: #dbeafe;
+
+	/* 文字 */
+	--sl-color-text: #333333;
+	--sl-color-text-muted: #666666;
+	--sl-color-text-subtle: #999999;
+	--sl-color-text-faint: #9ca3af;
+
+	/* 主色 */
+	--sl-color-accent: #2563eb;
+	--sl-color-accent-strong: #1e40af;
+	--sl-color-accent-hover: #1d4ed8;
+	--sl-color-on-accent: #ffffff;
+	--sl-color-link: #2563eb;
+	/* 承载白色文字的品牌渐变（header / 主按钮）。
+	   暗色下单独压深，保证白字对比度，不与 --sl-color-accent 联动。 */
+	--sl-gradient-brand: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+
+	/* 开关 */
+	--sl-color-switch-off: #cccccc;
+	--sl-color-switch-knob: #ffffff;
+
+	/* 状态色 */
+	--sl-color-success: #4caf50;
+	--sl-color-success-surface: #e8f5e9;
+	--sl-color-success-text: #2e7d32;
+	--sl-color-danger: #f44336;
+	--sl-color-danger-surface: #fef2f2;
+	--sl-color-danger-surface-strong: #ffebee;
+	--sl-color-danger-border: #fecaca;
+	--sl-color-danger-text: #c62828;
+
+	/* 圆形按钮（位于主题色头部上的叠加层） */
+	--sl-overlay-bg: rgba(255, 255, 255, 0.2);
+	--sl-overlay-bg-hover: rgba(255, 255, 255, 0.3);
+
+	/* 工具提示 */
+	--sl-tooltip-bg: #18181b;
+	--sl-tooltip-text: #f4f4f5;
+
+	/* 阴影 */
+	--sl-shadow-card: 0 10px 40px rgba(0, 0, 0, 0.1);
+	--sl-shadow-accent: 0 6px 20px rgba(37, 99, 235, 0.4);
+	--sl-shadow-accent-soft: 0 2px 8px rgba(37, 99, 235, 0.12);
+
+	/* 圆角 */
+	--sl-radius-sm: 6px;
+	--sl-radius: 8px;
+	--sl-radius-lg: 12px;
+	--sl-radius-pill: 9999px;
+
+	/* 间距 */
+	--sl-space-1: 4px;
+	--sl-space-1-5: 6px;
+	--sl-space-2: 8px;
+	--sl-space-3: 12px;
+	--sl-space-4: 16px;
+	--sl-space-5: 20px;
+
+	/* 动效（<= 300ms） */
+	--sl-dur-fast: 150ms;
+	--sl-dur: 200ms;
+	--sl-dur-slow: 300ms;
+	--sl-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* 深色：唯一一份覆盖 */
+[data-theme='dark'] {
+	--sl-color-bg: #18181b;
+	--sl-color-surface: #27272a;
+	--sl-color-surface-muted: #3f3f46;
+	--sl-color-surface-accent: #1e293b;
+
+	--sl-color-border: #52525b;
+	--sl-color-border-accent: #334155;
+
+	--sl-color-text: #e4e4e7;
+	--sl-color-text-muted: #a1a1aa;
+	--sl-color-text-subtle: #71717a;
+	--sl-color-text-faint: #52525b;
+
+	--sl-color-accent: #3b82f6;
+	--sl-color-accent-strong: #60a5fa;
+	--sl-color-accent-hover: #93bbfd;
+	--sl-color-link: #60a5fa;
+	--sl-gradient-brand: linear-gradient(135deg, #1d4ed8 0%, #1e3a8a 100%);
+
+	--sl-color-switch-off: #52525b;
+	--sl-color-switch-knob: #e4e4e7;
+
+	--sl-color-success-surface: #14532d;
+	--sl-color-success-text: #4ade80;
+	--sl-color-danger-surface: #2d1b1b;
+	--sl-color-danger-surface-strong: #7f1d1d;
+	--sl-color-danger-border: #5c2626;
+	--sl-color-danger-text: #f87171;
+
+	--sl-overlay-bg: rgba(0, 0, 0, 0.3);
+	--sl-overlay-bg-hover: rgba(0, 0, 0, 0.4);
+
+	--sl-tooltip-bg: #3f3f46;
+	--sl-tooltip-text: #f4f4f5;
+
+	--sl-shadow-card: 0 10px 40px rgba(0, 0, 0, 0.4);
+	--sl-shadow-accent: 0 6px 20px rgba(59, 130, 246, 0.35);
+}
+
+/* 尊重系统"减少动态效果"偏好 */
+@media (prefers-reduced-motion: reduce) {
+	:root {
+		--sl-dur-fast: 0ms;
+		--sl-dur: 0ms;
+		--sl-dur-slow: 0ms;
+	}
+}

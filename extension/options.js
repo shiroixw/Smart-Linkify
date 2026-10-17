@@ -1,19 +1,6 @@
 // 智能超链接识别 - 设置页面脚本
 
-// 初始化主题（立即执行，避免闪烁）
-;(function () {
-	chrome.storage.sync.get(['config'], function (result) {
-		const config = result.config || {}
-		// 默认跟随系统（auto），不设置 data-theme 属性
-		const theme = config.theme
-		if (theme === 'dark') {
-			document.documentElement.setAttribute('data-theme', 'dark')
-		} else if (theme === 'light') {
-			document.documentElement.setAttribute('data-theme', 'light')
-		}
-		// theme 为 undefined 或 'auto' 时不设置属性，跟随系统
-	})
-})()
+// 主题初始化由 shared/theme.js 负责（在 <head> 中同步引入）
 
 document.addEventListener('DOMContentLoaded', function () {
 	// 初始化国际化
@@ -74,13 +61,11 @@ document.addEventListener('DOMContentLoaded', function () {
 		})
 	}
 
-	// 应用主题
+	// 应用主题（auto 由 shared/theme.js 解析为 light / dark 并跟随系统）
 	function applyTheme(theme) {
-		if (theme === 'auto') {
-			document.documentElement.removeAttribute('data-theme')
-		} else {
-			document.documentElement.setAttribute('data-theme', theme)
-		}
+		const themeLib = globalThis.SmartLinkifyTheme
+		themeLib.apply(theme)
+		themeLib.watch(theme)
 	}
 
 	function saveConfig() {
@@ -148,13 +133,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	// 主题切换按钮事件
 	themeToggle.addEventListener('click', function () {
-		const currentTheme = document.documentElement.getAttribute('data-theme')
-		const isDark =
-			currentTheme === 'dark' ||
-			(!currentTheme &&
-				window.matchMedia('(prefers-color-scheme: dark)').matches)
-
-		const newTheme = isDark ? 'light' : 'dark'
+		const current = globalThis.SmartLinkifyTheme.resolve(
+			document.documentElement.getAttribute('data-theme')
+		)
+		const newTheme = current === 'dark' ? 'light' : 'dark'
 		applyTheme(newTheme)
 
 		// 更新单选按钮状态
