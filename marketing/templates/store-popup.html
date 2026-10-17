@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<title>store-03 popup</title>
+<link rel="stylesheet" href="../promo.css">
+<style>
+	.canvas {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) 440px;
+		align-items: center;
+		gap: 56px;
+		padding: 0 var(--promo-pad);
+	}
+	.left { gap: 24px; padding: 0; }
+	.right { position: relative; display: flex; justify-content: center; }
+	.right::before {
+		content: '';
+		position: absolute;
+		inset: 30px 20px;
+		border-radius: 44px;
+		background: linear-gradient(150deg, rgba(59, 130, 246, 0.28), rgba(30, 58, 138, 0.1));
+		filter: blur(8px);
+	}
+	.popup { position: relative; width: 320px; border-radius: 20px; }
+</style>
+</head>
+<body>
+<div class="canvas canvas--1280-800">
+	<div class="glow"></div>
+
+	<div class="stack left">
+		<h2 class="h2" data-copy="popup.title"></h2>
+		<p class="sub" data-copy="popup.sub"></p>
+		<ul class="feats">
+			<li><span class="num">01</span><span data-copy="popup.feats.0"></span></li>
+			<li><span class="num">02</span><span data-copy="popup.feats.1"></span></li>
+			<li><span class="num">03</span><span data-copy="popup.feats.2"></span></li>
+		</ul>
+	</div>
+
+	<div class="right">
+		<div class="shot popup"><img data-img="popup" alt=""></div>
+	</div>
+</div>
+<script src="../copy.js"></script>
+<script src="../promo.js"></script>
+</body>
+</html>

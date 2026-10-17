@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<title>store-02 autolink</title>
+<link rel="stylesheet" href="../promo.css">
+<style>
+	.canvas {
+		flex-direction: column;
+		align-items: stretch;
+		padding: 60px var(--promo-pad) 60px;
+	}
+	.head { display: flex; align-items: flex-end; justify-content: space-between; gap: 40px; }
+	.head .sub { max-width: 34em; }
+	.tag {
+		flex: 0 0 auto;
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+		padding: 8px 14px;
+		border-radius: var(--promo-radius-pill);
+		border: 1px solid var(--promo-line);
+		background: var(--promo-canvas-2);
+		font-size: var(--promo-small);
+		color: var(--promo-ink-muted);
+		margin-bottom: 6px;
+	}
+	.tag::before {
+		content: '';
+		width: 7px;
+		height: 7px;
+		border-radius: 50%;
+		background: #22c55e;
+	}
+	.stage { position: relative; margin-top: 44px; }
+	.stage .browser { width: 1136px; }
+	.stage .browser__viewport { height: 458px; }
+	.stage .browser__viewport img { width: 100%; }
+	.legend {
+		position: absolute;
+		right: 26px;
+		bottom: 26px;
+		display: flex;
+		gap: 8px;
+		align-items: center;
+		padding: 10px 14px;
+		border-radius: var(--promo-radius-pill);
+		background: rgba(16, 24, 40, 0.86);
+		color: #fff;
+		font-size: var(--promo-small);
+		letter-spacing: 0.01em;
+		backdrop-filter: blur(6px);
+	}
+	.legend b { color: #93bbfd; font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="canvas canvas--1280-800">
+	<div class="glow"></div>
+
+	<div class="head">
+		<div class="stack" style="padding:0; gap:18px;">
+			<h2 class="h2" data-copy="autolink.title"></h2>
+			<p class="sub" data-copy="autolink.sub"></p>
+		</div>
+		<span class="tag" data-copy="autolink.tag"></span>
+	</div>
+
+	<div class="stage">
+		<div class="browser">
+			<div class="browser__bar">
+				<div class="browser__dots"><i></i><i></i><i></i></div>
+				<div class="browser__url" data-url="https://blog.example.com/release-notes/v1-2"></div>
+			</div>
+			<div class="browser__viewport">
+				<img data-img="demo" alt="">
+				<div class="browser__fade"></div>
+			</div>
+		</div>
+		<div class="legend">
+			<span data-copy="autolink.legend.0"></span><span>→</span><b data-copy="autolink.legend.1"></b>
+		</div>
+	</div>
+</div>
+<script src="../copy.js"></script>
+<script src="../promo.js"></script>
+</body>
+</html>

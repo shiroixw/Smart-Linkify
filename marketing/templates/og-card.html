@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<title>og 1280×640</title>
+<link rel="stylesheet" href="../promo.css">
+<style>
+	.canvas {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) 340px;
+		align-items: center;
+		gap: 48px;
+		padding: 0 88px;
+		background: var(--promo-brand);
+	}
+	.rings {
+		position: absolute;
+		inset: 0;
+		background:
+			radial-gradient(760px 460px at 34% 0%, rgba(255, 255, 255, 0.2), transparent 70%),
+			radial-gradient(540px 340px at 96% 100%, rgba(255, 255, 255, 0.14), transparent 72%);
+	}
+	.left {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		gap: 26px;
+	}
+	.plate {
+		width: max-content;
+		padding: 12px;
+		border-radius: 26px;
+		background: rgba(255, 255, 255, 0.16);
+		border: 1px solid rgba(255, 255, 255, 0.24);
+	}
+	.mark { display: block; width: 76px; height: 76px; border-radius: 16px; }
+	.name {
+		font-size: 46px;
+		font-weight: 700;
+		letter-spacing: -0.025em;
+		line-height: 1.1;
+	}
+	.line {
+		font-size: 19px;
+		line-height: 1.6;
+		color: rgba(255, 255, 255, 0.88);
+		max-width: 24em;
+	}
+	.right { position: relative; display: flex; justify-content: center; }
+	.popup { width: 268px; border-radius: 18px; }
+</style>
+</head>
+<body>
+<div class="canvas canvas--1280-640 brand-bg">
+	<div class="rings"></div>
+
+	<div class="left">
+		<div class="plate"><img class="mark" src="../../extension/icons/icon128.png" alt=""></div>
+		<div class="name" data-copy="brand"></div>
+		<div class="line" data-copy="og.sub"></div>
+	</div>
+
+	<div class="right">
+		<div class="shot popup"><img data-img="popup" alt=""></div>
+	</div>
+</div>
+<script src="../copy.js"></script>
+<script src="../promo.js"></script>
+</body>
+</html>

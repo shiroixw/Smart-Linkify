@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<title>promo 1400×560</title>
+<link rel="stylesheet" href="../promo.css">
+<style>
+	.canvas {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) 520px;
+		align-items: center;
+		gap: 40px;
+		padding: 0 64px;
+		background: var(--promo-brand);
+	}
+	.rings {
+		position: absolute;
+		inset: 0;
+		background:
+			radial-gradient(560px 380px at 78% 10%, rgba(255, 255, 255, 0.2), transparent 68%),
+			radial-gradient(420px 300px at 4% 100%, rgba(255, 255, 255, 0.12), transparent 70%);
+	}
+	.left { position: relative; gap: 22px; padding: 0; }
+	.left .h1 { --promo-h1: 46px; }
+	.right {
+		position: relative;
+		height: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: flex-end;
+	}
+	.popup {
+		width: 296px;
+		border-radius: 18px;
+	}
+</style>
+</head>
+<body>
+<div class="canvas canvas--1400-560 brand-bg">
+	<div class="rings"></div>
+
+	<div class="stack left">
+		<div class="wordmark">
+			<img src="../../extension/icons/icon128.png" alt="">
+			<span data-copy="brand"></span>
+		</div>
+		<h1 class="h1" data-copy="hero.title"></h1>
+		<div class="chips">
+			<span class="chip" data-copy="chips.0"></span>
+			<span class="chip" data-copy="chips.1"></span>
+			<span class="chip" data-copy="chips.2"></span>
+		</div>
+	</div>
+
+	<div class="right">
+		<div class="shot popup"><img data-img="popup" alt=""></div>
+	</div>
+</div>
+<script src="../copy.js"></script>
+<script src="../promo.js"></script>
+</body>
+</html>

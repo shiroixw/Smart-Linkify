@@ -1,0 +1,353 @@
+/*
+ * 宣传图版式系统
+ *
+ * 规则：
+ * - 品牌色 / 圆角 / 阴影一律引用 extension/shared/tokens.css 的变量；
+ *   用 var(--token, fallback) 兜底，保证 token 文件暂时缺失时版式不塌
+ * - 这里只新增「宣传专用」token：画布尺寸、展示字号、展示间距
+ * - 模板里禁止写死颜色与字号
+ */
+
+@import url('../extension/shared/tokens.css');
+
+:root {
+	/* 展示字号（宣传图专用，产品 UI 不用这套） */
+	--promo-h1: 54px;
+	--promo-h2: 40px;
+	--promo-h3: 28px;
+	--promo-sub: 20px;
+	--promo-body: 16px;
+	--promo-small: 13px;
+	--promo-pad: 72px;
+
+	/* 品牌渐变 / 画布 */
+	--promo-brand: var(--sl-gradient-brand, linear-gradient(135deg, #2563eb 0%, #1e40af 100%));
+	--promo-accent: var(--sl-color-accent, #2563eb);
+	--promo-canvas: #f6f8fd;
+	--promo-canvas-2: #ffffff;
+	--promo-ink: #101828;
+	--promo-ink-muted: #5b6472;
+	--promo-ink-faint: #8a93a0;
+	--promo-line: rgba(16, 24, 40, 0.08);
+	--promo-card-shadow: 0 24px 60px rgba(16, 24, 40, 0.14), 0 2px 8px rgba(16, 24, 40, 0.06);
+	--promo-radius-frame: 16px;
+	--promo-radius-card: 12px;
+	--promo-radius-pill: var(--sl-radius-pill, 9999px);
+}
+
+[data-theme='dark'] {
+	--promo-canvas: #0e1014;
+	--promo-canvas-2: #171a20;
+	--promo-ink: #f2f4f8;
+	--promo-ink-muted: #a3adbd;
+	--promo-ink-faint: #6f7887;
+	--promo-line: rgba(255, 255, 255, 0.1);
+	--promo-card-shadow: 0 28px 70px rgba(0, 0, 0, 0.55), 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+* {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+}
+
+body {
+	font-family: var(--sl-font-sans, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
+	color: var(--promo-ink);
+	background: var(--promo-canvas);
+	-webkit-font-smoothing: antialiased;
+}
+
+/* 画布：尺寸由模板 class 决定，渲染脚本按同一尺寸开窗口 */
+.canvas {
+	position: relative;
+	overflow: hidden;
+	display: flex;
+	align-items: center;
+}
+
+.canvas--1280-800 {
+	width: 1280px;
+	height: 800px;
+}
+.canvas--1280-640 {
+	width: 1280px;
+	height: 640px;
+}
+.canvas--1400-560 {
+	width: 1400px;
+	height: 560px;
+}
+.canvas--440-280 {
+	width: 440px;
+	height: 280px;
+}
+.canvas--1080-1440 {
+	width: 1080px;
+	height: 1440px;
+}
+
+/* 背景装饰：柔光 + 细网格，克制、不抢主体 */
+.glow {
+	position: absolute;
+	inset: 0;
+	background:
+		radial-gradient(680px 420px at 82% 18%, rgba(37, 99, 235, 0.16), transparent 70%),
+		radial-gradient(520px 360px at 8% 92%, rgba(30, 64, 175, 0.1), transparent 72%);
+	pointer-events: none;
+}
+
+[data-theme='dark'] .glow {
+	background:
+		radial-gradient(760px 460px at 78% 14%, rgba(59, 130, 246, 0.22), transparent 70%),
+		radial-gradient(560px 380px at 12% 96%, rgba(30, 64, 175, 0.28), transparent 72%);
+}
+
+.brand-bg {
+	background: var(--promo-brand);
+	color: var(--sl-color-on-accent, #fff);
+}
+
+/* 排版 */
+.stack {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	gap: 22px;
+	padding: var(--promo-pad);
+}
+
+.h1 {
+	margin: 0;
+	font-size: var(--promo-h1);
+	line-height: 1.16;
+	font-weight: 700;
+	letter-spacing: -0.025em;
+	white-space: pre-line;
+}
+
+.h2 {
+	margin: 0;
+	font-size: var(--promo-h2);
+	line-height: 1.2;
+	font-weight: 700;
+	letter-spacing: -0.02em;
+	white-space: pre-line;
+}
+
+.sub {
+	margin: 0;
+	font-size: var(--promo-sub);
+	line-height: 1.65;
+	color: var(--promo-ink-muted);
+	max-width: 30em;
+}
+
+.brand-bg .sub,
+.brand-bg .h1,
+.brand-bg .h2 {
+	color: inherit;
+}
+
+.brand-bg .sub {
+	color: rgba(255, 255, 255, 0.86);
+}
+
+/* 品牌行 */
+.wordmark {
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	font-size: 20px;
+	font-weight: 600;
+	letter-spacing: -0.01em;
+}
+
+.wordmark img {
+	width: 44px;
+	height: 44px;
+	border-radius: 10px;
+	display: block;
+}
+
+.wordmark .cn {
+	font-size: var(--promo-small);
+	font-weight: 500;
+	color: var(--promo-ink-faint);
+	letter-spacing: 0.02em;
+}
+
+.brand-bg .wordmark .cn {
+	color: rgba(255, 255, 255, 0.7);
+}
+
+/* 特性胶囊 */
+.chips {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	margin-top: 6px;
+}
+
+.chip {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	padding: 9px 16px;
+	border-radius: var(--promo-radius-pill);
+	border: 1px solid var(--promo-line);
+	background: var(--promo-canvas-2);
+	font-size: 15px;
+	font-weight: 500;
+	white-space: nowrap;
+}
+
+.chip::before {
+	content: '';
+	width: 7px;
+	height: 7px;
+	border-radius: 50%;
+	background: var(--promo-accent);
+}
+
+.brand-bg .chip {
+	border-color: rgba(255, 255, 255, 0.28);
+	background: rgba(255, 255, 255, 0.12);
+	color: #fff;
+}
+
+.brand-bg .chip::before {
+	background: rgba(255, 255, 255, 0.85);
+}
+
+/* 特性行（弹出图 / 海报用） */
+.feats {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	margin: 6px 0 0;
+	padding: 0;
+	list-style: none;
+}
+
+.feats li {
+	display: flex;
+	align-items: flex-start;
+	gap: 12px;
+	font-size: 17px;
+	line-height: 1.5;
+	color: var(--promo-ink-muted);
+}
+
+.feats .num {
+	flex: 0 0 auto;
+	font-size: var(--promo-small);
+	font-weight: 700;
+	letter-spacing: 0.06em;
+	color: var(--promo-accent);
+	padding-top: 3px;
+}
+
+/* 截图卡片 */
+.shot {
+	position: relative;
+	border-radius: var(--promo-radius-card);
+	overflow: hidden;
+	background: var(--promo-canvas-2);
+	box-shadow: var(--promo-card-shadow);
+	border: 1px solid var(--promo-line);
+}
+
+.shot img {
+	display: block;
+	width: 100%;
+}
+
+/* 浏览器外框 */
+.browser {
+	position: relative;
+	border-radius: var(--promo-radius-frame);
+	background: var(--promo-canvas-2);
+	box-shadow: var(--promo-card-shadow);
+	border: 1px solid var(--promo-line);
+	overflow: hidden;
+}
+
+.browser__bar {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	height: 46px;
+	padding: 0 16px;
+	background: color-mix(in srgb, var(--promo-canvas-2) 88%, var(--promo-ink) 12%);
+	border-bottom: 1px solid var(--promo-line);
+}
+
+.browser__dots {
+	display: flex;
+	gap: 7px;
+}
+
+.browser__dots i {
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	background: color-mix(in srgb, var(--promo-ink) 22%, transparent);
+}
+
+.browser__url {
+	flex: 1;
+	height: 26px;
+	border-radius: var(--promo-radius-pill);
+	background: color-mix(in srgb, var(--promo-ink) 6%, transparent);
+	display: flex;
+	align-items: center;
+	padding: 0 12px;
+	font-size: 12px;
+	color: var(--promo-ink-faint);
+	letter-spacing: 0.01em;
+}
+
+.browser__viewport {
+	position: relative;
+	overflow: hidden;
+}
+
+.browser__viewport img {
+	display: block;
+	width: 100%;
+}
+
+/* 截图底部渐隐，避免长页面在卡片底边被硬切 */
+.browser__fade {
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	height: 72px;
+	background: linear-gradient(to bottom, transparent, var(--promo-canvas-2));
+	pointer-events: none;
+}
+
+/* 宿主页面本身是浅色的（demo 截图），在暗色画布上要渐隐到白，否则会糊成灰带 */
+.browser__fade--light {
+	background: linear-gradient(to bottom, transparent, #ffffff);
+}
+
+/*
+ * options 截图：素材采集时已隐藏页面 banner，这里只需裁掉页面两侧留白
+ * （源图容器 800 宽居中于 1000 宽截图，左右各 100px；展示缩放 0.75）。
+ */
+.browser--cropped .browser__viewport {
+	width: 600px;
+}
+
+.browser--cropped .browser__viewport img {
+	width: 750px;
+	margin-left: -75px;
+}

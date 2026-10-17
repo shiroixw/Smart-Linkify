@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<title>store-01 hero</title>
+<link rel="stylesheet" href="../promo.css">
+<style>
+	.canvas {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) 420px;
+		align-items: center;
+		gap: 48px;
+		padding: 0 var(--promo-pad);
+	}
+	.left { gap: 26px; padding: 0; }
+	.right {
+		position: relative;
+		display: flex;
+		justify-content: center;
+	}
+	.right::before {
+		content: '';
+		position: absolute;
+		inset: -8px 6px;
+		border-radius: 44px;
+		background: linear-gradient(160deg, rgba(37, 99, 235, 0.12), rgba(37, 99, 235, 0.02));
+		border: 1px solid var(--promo-line);
+	}
+
+	[data-theme='dark'] .right::before {
+		background: linear-gradient(160deg, rgba(59, 130, 246, 0.16), rgba(59, 130, 246, 0.03));
+	}
+	.popup {
+		position: relative;
+		width: 300px;
+		border-radius: 18px;
+	}
+</style>
+</head>
+<body>
+<div class="canvas canvas--1280-800">
+	<div class="glow"></div>
+
+	<div class="stack left">
+		<div class="wordmark">
+			<img src="../../extension/icons/icon128.png" alt="">
+			<span data-copy="brand"></span>
+			<span class="cn" data-copy="brandCn"></span>
+		</div>
+		<h1 class="h1" data-copy="hero.title"></h1>
+		<p class="sub" data-copy="hero.sub"></p>
+		<div class="chips">
+			<span class="chip" data-copy="chips.0"></span>
+			<span class="chip" data-copy="chips.1"></span>
+			<span class="chip" data-copy="chips.2"></span>
+		</div>
+	</div>
+
+	<div class="right">
+		<div class="shot popup"><img data-img="popup" alt=""></div>
+	</div>
+</div>
+<script src="../copy.js"></script>
+<script src="../promo.js"></script>
+</body>
+</html>

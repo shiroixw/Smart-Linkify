@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<title>store-04 options</title>
+<link rel="stylesheet" href="../promo.css">
+<style>
+	.canvas {
+		display: grid;
+		grid-template-columns: 440px minmax(0, 1fr);
+		align-items: center;
+		gap: 56px;
+		padding: 0 var(--promo-pad);
+	}
+	.left { gap: 24px; padding: 0; }
+	.right { position: relative; justify-self: end; }
+	.browser { width: 600px; }
+	.browser__viewport { height: 500px; }
+	.bullets {
+		display: flex;
+		flex-direction: column;
+		gap: 18px;
+		margin: 4px 0 0;
+		padding: 0;
+		list-style: none;
+	}
+	.bullets li { display: flex; flex-direction: column; gap: 3px; }
+	.bullets strong { font-size: 17px; font-weight: 600; }
+	.bullets span { font-size: 15px; line-height: 1.5; color: var(--promo-ink-muted); }
+</style>
+</head>
+<body>
+<div class="canvas canvas--1280-800">
+	<div class="glow"></div>
+
+	<div class="stack left">
+		<h2 class="h2" data-copy="options.title"></h2>
+		<p class="sub" data-copy="options.sub"></p>
+		<ul class="bullets">
+			<li><strong data-copy="options.bullets.0.0"></strong><span data-copy="options.bullets.0.1"></span></li>
+			<li><strong data-copy="options.bullets.1.0"></strong><span data-copy="options.bullets.1.1"></span></li>
+			<li><strong data-copy="options.bullets.2.0"></strong><span data-copy="options.bullets.2.1"></span></li>
+		</ul>
+	</div>
+
+	<div class="right">
+		<div class="browser browser--cropped">
+			<div class="browser__bar">
+				<div class="browser__dots"><i></i><i></i><i></i></div>
+				<div class="browser__url" data-url="chrome-extension://settings"></div>
+			</div>
+			<div class="browser__viewport">
+				<img data-img="options" alt="">
+				<div class="browser__fade"></div>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="../copy.js"></script>
+<script src="../promo.js"></script>
+</body>
+</html>
