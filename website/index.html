@@ -8,7 +8,41 @@
 			content="智能超链接识别 - 自动将网页中的纯文本 URL 转换为可点击的超链接"
 		/>
 		<meta name="keywords" content="Chrome扩展,超链接,URL转换,浏览器插件" />
+		<meta name="theme-color" content="#2563eb" />
 		<link rel="icon" href="./favicon.ico" type="image/x-icon" />
+		<link rel="apple-touch-icon" href="./images/apple-touch-icon.png" />
+		<!-- 社交分享卡片（og / twitter） -->
+		<meta property="og:type" content="website" />
+		<meta property="og:site_name" content="智能超链接识别" />
+		<meta
+			property="og:title"
+			content="智能超链接识别 - 让网页里的每一条链接都能点"
+		/>
+		<meta
+			property="og:description"
+			content="自动将网页中的纯文本 URL 转换为可点击的超链接"
+		/>
+		<meta property="og:url" content="https://smart-linkify.vercel.app/" />
+		<meta
+			property="og:image"
+			content="https://smart-linkify.vercel.app/images/og-1280x640.png"
+		/>
+		<meta property="og:image:width" content="1280" />
+		<meta property="og:image:height" content="640" />
+		<meta property="og:locale" content="zh_CN" />
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta
+			name="twitter:title"
+			content="智能超链接识别 - 让网页里的每一条链接都能点"
+		/>
+		<meta
+			name="twitter:description"
+			content="自动将网页中的纯文本 URL 转换为可点击的超链接"
+		/>
+		<meta
+			name="twitter:image"
+			content="https://smart-linkify.vercel.app/images/og-1280x640.png"
+		/>
 		<title>智能超链接识别 - Smart Linkify – Instant hyperlink conversion</title>
 		<link rel="stylesheet" href="css/style.css" />
 		<link
@@ -187,39 +221,81 @@
 						</div>
 					</div>
 					<div class="hero-image">
-						<div class="browser-mockup">
-							<div class="browser-header">
-								<div class="browser-dots">
-									<span></span><span></span><span></span>
+						<div class="hero-scene">
+							<div class="hero-scene__glow" aria-hidden="true"></div>
+
+							<div class="browser-mockup hero-scene__window">
+								<div class="browser-header">
+									<div class="browser-dots">
+										<span></span><span></span><span></span>
+									</div>
+									<div class="browser-url">
+										blog.example.com/release-notes
+									</div>
 								</div>
-								<div class="browser-url">
-									chrome://extensions
+								<div class="browser-content">
+									<div class="scene-article">
+										<span
+											class="scene-eyebrow"
+											data-i18n="hero.scene.eyebrow"
+											>发布说明</span
+										>
+										<h3
+											class="scene-title"
+											data-i18n="hero.scene.title"
+										>
+											v1.1.0 · 更稳的链接识别
+										</h3>
+										<p
+											class="scene-text"
+											data-i18n="hero.scene.body"
+										>
+											修复了动态内容里漏转的链接，新增站点白名单与更严格的匹配规则。
+										</p>
+										<p
+											class="scene-text"
+											data-i18n="hero.scene.link1"
+										>
+											完整变更见
+											<a
+												href="https://github.com/shiroixw/Smart-Linkify/releases"
+												target="_blank"
+												rel="noopener"
+												>github.com/shiroixw/Smart-Linkify/releases</a
+											>
+										</p>
+										<p
+											class="scene-text"
+											data-i18n="hero.scene.link2"
+										>
+											遇到问题？
+											<a
+												href="https://github.com/shiroixw/Smart-Linkify/issues"
+												target="_blank"
+												rel="noopener"
+												>github.com/shiroixw/Smart-Linkify/issues</a
+											>
+										</p>
+									</div>
 								</div>
 							</div>
-							<div class="browser-content">
-								<div class="extension-card">
-									<div class="extension-icon">
-										<img
-											src="images/icon512.png"
-											alt="Extension Icon"
-										/>
-									</div>
-									<div class="extension-info">
-										<h3 data-i18n="hero.extension.name">
-											智能超链接识别
-										</h3>
-										<p data-i18n="hero.extension.desc">
-											自动转换纯文本 URL 为可点击链接
-										</p>
-										<div class="extension-status">
-											<span
-												class="status-badge active"
-												data-i18n="hero.extension.enabled"
-												>已启用</span
-											>
-										</div>
-									</div>
+
+							<div class="hero-scene__chip">
+								<img
+									src="images/icon512.png"
+									alt=""
+									width="32"
+									height="32"
+								/>
+								<div class="chip-text">
+									<strong data-i18n="hero.scene.chip.title"
+										>本站已启用</strong
+									>
+									<span data-i18n="hero.scene.chip.meta"
+										>4 条链接已转换</span
+									>
 								</div>
+								<span class="chip-switch" aria-hidden="true"></span>
 							</div>
 						</div>
 					</div>
@@ -309,56 +385,67 @@
 						看看插件是如何工作的
 					</p>
 				</div>
-				<div class="demo-container">
-					<div class="demo-before">
-						<h3>
-							<i class="fas fa-times-circle"></i>
-							<span data-i18n="demo.before">转换前</span>
-						</h3>
-						<div class="demo-content">
-							<p data-i18n="demo.text1">
-								访问我们的网站 www.example.com 获取更多信息
-							</p>
-							<p data-i18n="demo.text2">
-								或发送邮件到 contact@example.com
-							</p>
-							<p data-i18n="demo.text3">
-								查看项目 https://github.com/example/project
-							</p>
+				<figure class="demo-video">
+					<video
+						src="videos/demo-en.mp4"
+						poster="images/demo-poster.png"
+						autoplay
+						muted
+						loop
+						playsinline
+						controls
+						preload="metadata"
+						data-i18n-aria-label="demo.video.alt"
+					></video>
+					<figcaption data-i18n="demo.caption">
+						真实录屏：在网页里发布一条带裸链接的评论，链接当场变成可点击
+					</figcaption>
+				</figure>
+			</div>
+		</section>
+
+		<!-- 真实界面 -->
+		<section id="screens" class="screens">
+			<div class="container">
+				<div class="section-header">
+					<h2 class="section-title" data-i18n="screens.title">
+						真实界面
+					</h2>
+					<p class="section-subtitle" data-i18n="screens.subtitle">
+						插件里你每天会用到的两个界面
+					</p>
+				</div>
+				<div class="screens-grid">
+					<figure class="screen-card screen-card--popup">
+						<div class="screen-frame">
+							<img
+								src="images/screen-popup.png"
+								width="640"
+								height="1070"
+								loading="lazy"
+								alt="弹出面板：本站开关与已转换链接统计"
+								data-i18n-alt="screens.popup.alt"
+							/>
 						</div>
-					</div>
-					<div class="demo-arrow">
-						<i class="fas fa-arrow-right"></i>
-					</div>
-					<div class="demo-after">
-						<h3>
-							<i class="fas fa-check-circle"></i>
-							<span data-i18n="demo.after">转换后</span>
-						</h3>
-						<div class="demo-content">
-							<p data-i18n="demo.after.text1">
-								访问我们的网站
-								<a href="http://www.example.com" target="_blank"
-									>www.example.com</a
-								>
-								获取更多信息
-							</p>
-							<p data-i18n="demo.after.text2">
-								或发送邮件到
-								<a href="mailto:contact@example.com"
-									>contact@example.com</a
-								>
-							</p>
-							<p data-i18n="demo.after.text3">
-								查看项目
-								<a
-									href="https://github.com/example/project"
-									target="_blank"
-									>https://github.com/example/project</a
-								>
-							</p>
+						<figcaption data-i18n="screens.popup">
+							弹出面板：本站一键开关，实时显示已转换链接数
+						</figcaption>
+					</figure>
+					<figure class="screen-card screen-card--options">
+						<div class="screen-frame">
+							<img
+								src="images/screen-options.png"
+								width="1000"
+								height="1564"
+								loading="lazy"
+								alt="设置页：匹配精度与站点白名单"
+								data-i18n-alt="screens.options.alt"
+							/>
 						</div>
-					</div>
+						<figcaption data-i18n="screens.options">
+							设置页：精确匹配、排除文件扩展名、站点白名单
+						</figcaption>
+					</figure>
 				</div>
 			</div>
 		</section>

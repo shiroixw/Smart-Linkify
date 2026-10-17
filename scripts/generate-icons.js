@@ -45,6 +45,13 @@ const DESIGN = {
 	 * 四周各留 16px 透明边距（扩展包内仍用满幅版本）。
 	 */
 	storeIcon: { canvas: 128, art: 96 },
+	/** 官网品牌资产：与扩展图标同源，避免站内 logo 与插件图标不一致 */
+	siteAssets: [
+		{ file: 'website/images/icon512.png', size: 512 },
+		{ file: 'website/images/apple-touch-icon.png', size: 180 },
+	],
+	/** favicon.ico 内打包的尺寸（单文件多分辨率） */
+	favicon: { file: 'website/favicon.ico', sizes: [16, 32, 48] },
 };
 
 /** Lucide `link` 图标路径（stroke 型，viewBox 24×24，ISC License） */
@@ -56,7 +63,8 @@ const GLYPH = {
 	],
 };
 
-const OUT_DIR = path.join(__dirname, '..', 'extension', 'icons');
+const ROOT = path.join(__dirname, '..');
+const OUT_DIR = path.join(ROOT, 'extension', 'icons');
 
 // ---------------------------------------------------------------------------
 // SVG path 解析：只支持本图标用到的命令，遇到未知命令直接抛错，不静默降级
@@ -481,6 +489,34 @@ function renderStoreIcon() {
 }
 
 // ---------------------------------------------------------------------------
+// ICO 封装：多分辨率 favicon（内嵌 PNG，Vista 及以上浏览器均支持）
+// ---------------------------------------------------------------------------
+function encodeIco(entries) {
+	const header = Buffer.alloc(6);
+	header.writeUInt16LE(0, 0); // reserved
+	header.writeUInt16LE(1, 2); // type: icon
+	header.writeUInt16LE(entries.length, 4);
+
+	const directory = Buffer.alloc(16 * entries.length);
+	let offset = header.length + directory.length;
+
+	entries.forEach((entry, index) => {
+		const base = index * 16;
+		directory[base] = entry.size >= 256 ? 0 : entry.size;
+		directory[base + 1] = entry.size >= 256 ? 0 : entry.size;
+		directory[base + 2] = 0; // palette
+		directory[base + 3] = 0; // reserved
+		directory.writeUInt16LE(1, base + 4); // color planes
+		directory.writeUInt16LE(32, base + 6); // bits per pixel
+		directory.writeUInt32LE(entry.png.length, base + 8);
+		directory.writeUInt32LE(offset, base + 12);
+		offset += entry.png.length;
+	});
+
+	return Buffer.concat([header, directory, ...entries.map((entry) => entry.png)]);
+}
+
+// ---------------------------------------------------------------------------
 // main
 // ---------------------------------------------------------------------------
 function main() {
@@ -504,6 +540,26 @@ function main() {
 	const svgFile = path.join(OUT_DIR, 'icon.svg');
 	fs.writeFileSync(svgFile, toSvg(), 'utf8');
 	console.log(`✓ ${path.relative(process.cwd(), svgFile)}`);
+
+	// 官网品牌资产（与扩展图标同源）
+	for (const asset of DESIGN.siteAssets) {
+		const target = path.join(ROOT, asset.file);
+		fs.mkdirSync(path.dirname(target), { recursive: true });
+		const png = encodePng(asset.size, asset.size, render(asset.size));
+		fs.writeFileSync(target, png);
+		console.log(`✓ ${asset.file}  ${asset.size}×${asset.size}  ${png.length} bytes`);
+	}
+
+	// favicon.ico：多分辨率打包
+	const icoEntries = DESIGN.favicon.sizes.map((size) => ({
+		size,
+		png: encodePng(size, size, render(size)),
+	}));
+	const icoFile = path.join(ROOT, DESIGN.favicon.file);
+	fs.writeFileSync(icoFile, encodeIco(icoEntries));
+	console.log(
+		`✓ ${DESIGN.favicon.file}  ${DESIGN.favicon.sizes.join('/')}  ${fs.statSync(icoFile).size} bytes`
+	);
 }
 
 if (require.main === module) {
