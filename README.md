@@ -131,10 +131,10 @@ Smart-Linkify/
 │   ├── popup.*               # Popup
 │   ├── options.*             # Options page
 │   ├── welcome.*             # First-run page
-│   └── icons/
+│   └── icons/                # icon.svg is the vector source, PNG set is generated
 ├── website/                  # Static marketing site
 ├── test/                     # node:test unit tests
-├── scripts/                  # Version sync, git hook installer
+├── scripts/                  # Version sync, git hooks, icon generation
 ├── docs/superpowers/         # Design and analysis documents
 └── .github/workflows/ci.yml  # CI: tests / lint / type check
 ```

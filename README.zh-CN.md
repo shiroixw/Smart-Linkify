@@ -131,10 +131,10 @@ Smart-Linkify/
 │   ├── popup.*               # 弹窗
 │   ├── options.*             # 设置页
 │   ├── welcome.*             # 首装引导
-│   └── icons/                # 图标
+│   └── icons/                # icon.svg 为矢量源，PNG 由脚本生成
 ├── website/                  # 官网（静态站点）
 ├── test/                     # node:test 单元测试
-├── scripts/                  # 版本同步、git hook 安装
+├── scripts/                  # 版本同步、git hook、图标生成
 ├── docs/superpowers/         # 设计与分析文档
 └── .github/workflows/ci.yml  # CI：测试 / Lint / 类型检查
 ```
