@@ -1,256 +1,159 @@
 // 智能超链接识别官网 - 主脚本
 
-// 主题切换 - 尽早执行以避免闪烁
+const THEME_KEY = 'theme'
+const DARK_MEDIA = '(prefers-color-scheme: dark)'
+
+// 尽早执行，避免主题闪烁
 initTheme()
 
 document.addEventListener('DOMContentLoaded', function () {
-	// 主题切换按钮
 	initThemeToggle()
-
-	// 导航栏滚动效果
-	initNavbarScroll()
-
-	// 移动端菜单
 	initMobileMenu()
-
-	// FAQ 折叠效果
 	initFAQ()
-
-	// 平滑滚动
 	initSmoothScroll()
-
-	// 动画效果
 	initAnimations()
 })
 
-// 初始化主题（页面加载时立即执行）
-function initTheme() {
-	const savedTheme = localStorage.getItem('theme')
-	if (savedTheme) {
-		document.documentElement.setAttribute('data-theme', savedTheme)
-	}
-	// 如果没有保存的主题，则跟随系统（CSS 媒体查询会自动处理）
+function prefersDark() {
+	return !!(window.matchMedia && window.matchMedia(DARK_MEDIA).matches)
 }
 
-// 初始化主题切换按钮
+function prefersReducedMotion() {
+	return !!(
+		window.matchMedia &&
+		window.matchMedia('(prefers-reduced-motion: reduce)').matches
+	)
+}
+
+/**
+ * 用户显式选择优先，否则跟随系统
+ * @returns {'light' | 'dark'}
+ */
+function resolveTheme() {
+	const saved = localStorage.getItem(THEME_KEY)
+	if (saved === 'light' || saved === 'dark') return saved
+	return prefersDark() ? 'dark' : 'light'
+}
+
+/**
+ * 把解析结果写到 <html data-theme>，CSS 只需一层 [data-theme='dark'] 覆盖
+ * @param {'light' | 'dark'} [theme]
+ */
+function applyTheme(theme) {
+	document.documentElement.setAttribute('data-theme', theme || resolveTheme())
+}
+
+function initTheme() {
+	applyTheme()
+	if (!window.matchMedia) return
+	window.matchMedia(DARK_MEDIA).addEventListener('change', function () {
+		// 只有"跟随系统"时才响应系统切换
+		const saved = localStorage.getItem(THEME_KEY)
+		if (saved !== 'light' && saved !== 'dark') applyTheme()
+	})
+}
+
 function initThemeToggle() {
 	const themeToggle = document.querySelector('.theme-toggle')
 	if (!themeToggle) return
 
-	themeToggle.addEventListener('click', () => {
-		const currentTheme = document.documentElement.getAttribute('data-theme')
-		const prefersDark = window.matchMedia(
-			'(prefers-color-scheme: dark)'
-		).matches
-
-		let newTheme
-		if (currentTheme === 'dark') {
-			newTheme = 'light'
-		} else if (currentTheme === 'light') {
-			newTheme = 'dark'
-		} else {
-			// 当前跟随系统，切换到相反主题
-			newTheme = prefersDark ? 'light' : 'dark'
-		}
-
-		document.documentElement.setAttribute('data-theme', newTheme)
-		localStorage.setItem('theme', newTheme)
+	themeToggle.addEventListener('click', function () {
+		const current = document.documentElement.getAttribute('data-theme')
+		const newTheme = current === 'dark' ? 'light' : 'dark'
+		applyTheme(newTheme)
+		localStorage.setItem(THEME_KEY, newTheme)
 	})
 }
 
-// 导航栏滚动效果（保留函数骨架以防其他代码引用）
-function initNavbarScroll() {
-	// 导航栏视觉由 CSS border-bottom 驱动，不再用 JS 注入 box-shadow
-}
-
-// 移动端菜单
 function initMobileMenu() {
 	const toggle = document.querySelector('.mobile-menu-toggle')
 	const menu = document.querySelector('.nav-menu')
+	if (!toggle || !menu) return
 
-	if (toggle && menu) {
-		toggle.addEventListener('click', () => {
-			menu.classList.toggle('active')
+	if (!menu.id) menu.id = 'navMenu'
+	toggle.setAttribute('aria-controls', menu.id)
 
-			// 切换图标
-			const icon = toggle.querySelector('i')
-			if (menu.classList.contains('active')) {
-				icon.classList.remove('fa-bars')
-				icon.classList.add('fa-times')
-			} else {
-				icon.classList.remove('fa-times')
-				icon.classList.add('fa-bars')
-			}
-		})
-
-		// 点击菜单项后关闭菜单
-		const menuItems = menu.querySelectorAll('a')
-		menuItems.forEach((item) => {
-			item.addEventListener('click', () => {
-				menu.classList.remove('active')
-				const icon = toggle.querySelector('i')
-				icon.classList.remove('fa-times')
-				icon.classList.add('fa-bars')
-			})
-		})
+	function setOpen(open) {
+		menu.classList.toggle('active', open)
+		toggle.setAttribute('aria-expanded', open ? 'true' : 'false')
 	}
+
+	toggle.addEventListener('click', function () {
+		setOpen(!menu.classList.contains('active'))
+	})
+
+	menu.querySelectorAll('a').forEach(function (item) {
+		item.addEventListener('click', function () {
+			setOpen(false)
+		})
+	})
 }
 
-// FAQ 折叠效果
 function initFAQ() {
 	const faqItems = document.querySelectorAll('.faq-item')
 
-	faqItems.forEach((item) => {
+	faqItems.forEach(function (item) {
 		const question = item.querySelector('.faq-question')
+		if (!question) return
 
-		question.addEventListener('click', () => {
-			// 关闭其他打开的项
-			faqItems.forEach((otherItem) => {
-				if (
-					otherItem !== item &&
-					otherItem.classList.contains('active')
-				) {
-					otherItem.classList.remove('active')
+		question.addEventListener('click', function () {
+			faqItems.forEach(function (other) {
+				if (other !== item && other.classList.contains('active')) {
+					other.classList.remove('active')
+					const btn = other.querySelector('.faq-question')
+					if (btn) btn.setAttribute('aria-expanded', 'false')
 				}
 			})
-
-			// 切换当前项
-			item.classList.toggle('active')
+			const open = item.classList.toggle('active')
+			question.setAttribute('aria-expanded', open ? 'true' : 'false')
 		})
 	})
 }
 
-// 平滑滚动
 function initSmoothScroll() {
 	const links = document.querySelectorAll('a[href^="#"]')
 
-	links.forEach((link) => {
-		link.addEventListener('click', (e) => {
+	links.forEach(function (link) {
+		link.addEventListener('click', function (e) {
 			const href = link.getAttribute('href')
-
-			// 跳过空锚点
-			if (href === '#' || href === '#!') {
-				return
-			}
+			if (href === '#' || href === '#!') return
 
 			const target = document.querySelector(href)
+			if (!target) return
 
-			if (target) {
-				e.preventDefault()
-
-				const navbarHeight =
-					document.querySelector('.navbar').offsetHeight
-				const targetPosition = target.offsetTop - navbarHeight
-
-				window.scrollTo({
-					top: targetPosition,
-					behavior: 'smooth',
-				})
-			}
+			e.preventDefault()
+			const navbar = document.querySelector('.navbar')
+			const navbarHeight = navbar ? navbar.offsetHeight : 0
+			window.scrollTo({
+				top: target.offsetTop - navbarHeight,
+				behavior: prefersReducedMotion() ? 'auto' : 'smooth',
+			})
 		})
 	})
 }
 
-// 动画效果
 function initAnimations() {
-	const observerOptions = {
-		threshold: 0.1,
-		rootMargin: '0px 0px -50px 0px',
-	}
+	// 尊重"减少动态效果"：直接显示，不做入场动画
+	if (prefersReducedMotion() || !('IntersectionObserver' in window)) return
 
-	const observer = new IntersectionObserver((entries) => {
-		entries.forEach((entry) => {
-			if (entry.isIntersecting) {
+	const observer = new IntersectionObserver(
+		function (entries) {
+			entries.forEach(function (entry) {
+				if (!entry.isIntersecting) return
 				entry.target.style.opacity = '1'
 				observer.unobserve(entry.target)
-			}
-		})
-	}, observerOptions)
+			})
+		},
+		{ threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+	)
 
 	const animatedElements = document.querySelectorAll(
 		'.feature-card, .use-case-card, .doc-card, .download-card, .step'
 	)
 
-	animatedElements.forEach((el) => {
+	animatedElements.forEach(function (el) {
 		el.style.opacity = '0'
 		el.style.transition = 'opacity var(--dur-slow, 300ms) var(--ease, ease)'
 		observer.observe(el)
 	})
 }
-
-// 复制代码功能（如果需要）
-function copyToClipboard(text) {
-	if (navigator.clipboard) {
-		navigator.clipboard.writeText(text).then(() => {
-			showNotification('已复制到剪贴板！')
-		})
-	} else {
-		// 降级方案
-		const textarea = document.createElement('textarea')
-		textarea.value = text
-		textarea.style.position = 'fixed'
-		textarea.style.opacity = '0'
-		document.body.appendChild(textarea)
-		textarea.select()
-		document.execCommand('copy')
-		document.body.removeChild(textarea)
-		showNotification('已复制到剪贴板！')
-	}
-}
-
-// 显示通知
-function showNotification(message) {
-	const notification = document.createElement('div')
-	notification.className = 'notification'
-	notification.textContent = message
-
-	document.body.appendChild(notification)
-
-	setTimeout(() => {
-		notification.style.animation = 'slideOut 0.3s ease'
-		setTimeout(() => {
-			document.body.removeChild(notification)
-		}, 300)
-	}, 3000)
-}
-
-// 添加动画样式
-const style = document.createElement('style')
-style.textContent = `
-    @keyframes slideIn {
-        from { opacity: 0; transform: translateY(10px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes slideOut {
-        from { opacity: 1; transform: translateY(0); }
-        to { opacity: 0; transform: translateY(10px); }
-    }
-`
-document.head.appendChild(style)
-
-// 统计功能（可选）
-function trackEvent(category, action, label) {
-	// 如果集成了 Google Analytics 或其他分析工具
-	if (typeof gtag !== 'undefined') {
-		gtag('event', action, {
-			event_category: category,
-			event_label: label,
-		})
-	}
-	console.log('Event:', category, action, label)
-}
-
-// 下载按钮点击追踪
-document.querySelectorAll('.btn').forEach((btn) => {
-	btn.addEventListener('click', function (e) {
-		const text = this.textContent.trim()
-		trackEvent('Button', 'Click', text)
-	})
-})
-
-// 页面加载完成
-window.addEventListener('load', () => {
-	console.log('智能超链接识别官网已加载')
-	trackEvent('Page', 'Load', 'Homepage')
-})
