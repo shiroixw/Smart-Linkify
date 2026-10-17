@@ -1,12 +1,12 @@
 {
 	"name": "smart-linkify",
-	"version": "1.0.5",
+	"version": "1.1.0",
 	"description": "Smart Linkify – Instantly convert plain text URLs into clickable hyperlinks on any webpage",
 	"author": "Smart Linkify Team",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/xiaowulang-turbo/Smart-Linkify.git"
+		"url": "https://github.com/shiroixw/Smart-Linkify.git"
 	},
 	"keywords": [
 		"linkify",
@@ -35,6 +35,6 @@
 	},
 	"homepage": "https://smart-linkify.vercel.app/",
 	"bugs": {
-		"url": "https://github.com/xiaowulang-turbo/Smart-Linkify/issues"
+		"url": "https://github.com/shiroixw/Smart-Linkify/issues"
 	}
 }

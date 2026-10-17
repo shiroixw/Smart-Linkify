@@ -1,5 +1,31 @@
 # 更新日志
 
+## [1.1.0] - 2026-10-17
+
+### 重要修复
+
+-   修复 URL 识别正则只匹配三段以上域名的问题：`example.com`、`www.google.com`、`github.com/user/project` 这类最常见形态现在都能正确转换
+-   修复 `ftp://` 链接被二次加前缀、生成 `http://ftp://…` 坏链的问题
+-   修复 URL 尾部标点被吞进链接（如 `…/a.`），以及中文查询参数被截断（如 `?q=中文`）的问题
+-   可编辑区域（`contenteditable`、`role=textbox`）不再被改写，输入框与富文本编辑器里的文本保持原样
+-   修复"只替换文本、不新增元素"的更新（聊天流、虚拟列表、`textContent` 改写）漏转换的问题
+
+### 体验改进
+
+-   转换出的链接不再写内联样式，改为注入样式表；深色系统主题下链接颜色自动跟随
+-   不再往页面元素上写 `data-link-converted` 标记，避免污染宿主页面 DOM
+-   扩展界面全面改用设计 token，深色模式只维护一份变量；修复深色模式下标题栏仍使用亮蓝渐变的问题
+-   弹窗的站点开关补上可访问名称，读屏用户可识别其用途
+-   设置页的 `?` 帮助气泡语义规范化：说明文本作为独立 tooltip，不再混入按钮名称
+
+### 工程改进
+
+-   识别逻辑拆分为 `extension/lib/` 下的纯函数模块（`linkify.js` / `dom-rules.js` / `config.js`），配置默认值收敛为单一来源
+-   新增 27 条 `node:test` 单元测试
+-   新增 ESLint、`checkJs` 类型检查与 GitHub Actions CI（测试 / Lint / 类型检查 / manifest 合法性 / 版本一致性）
+-   重做扩展图标，提供 16 / 32 / 48 / 96 / 128 / 256 全套尺寸与矢量源文件
+-   README（中英文）与实现对齐，补充测试与质量门禁说明
+
 ## [1.0.5] - 2026-08-25
 
 ### 界面改进
@@ -142,4 +168,4 @@
 
 -   官网：https://smart-linkify.vercel.app/
 -   问题反馈
-    ：https://github.com/xiaowulang-turbo/Smart-Linkify/issues
+    ：https://github.com/shiroixw/Smart-Linkify/issues

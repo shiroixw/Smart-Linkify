@@ -237,7 +237,8 @@ footer {
 /* 按钮 */
 .btn {
 	padding: var(--sl-space-3) 30px;
-	border: none;
+	/* 与 .btn-secondary 的 2px 描边占位一致，否则两个按钮高度差 4px */
+	border: 2px solid transparent;
 	border-radius: var(--sl-radius);
 	font-size: 15px;
 	font-weight: 500;
@@ -274,7 +275,7 @@ footer {
 .btn-secondary {
 	background: var(--sl-color-surface);
 	color: var(--sl-color-accent);
-	border: 2px solid var(--sl-color-accent);
+	border-color: var(--sl-color-accent);
 }
 
 .btn-secondary:hover {

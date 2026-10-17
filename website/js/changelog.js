@@ -1,8 +1,8 @@
 ;(function () {
 	const RAW_URL =
-		'https://raw.githubusercontent.com/xiaowulang-turbo/Smart-Linkify/main/CHANGELOG.md'
+		'https://raw.githubusercontent.com/shiroixw/Smart-Linkify/main/CHANGELOG.md'
 	const GITHUB_BLOB =
-		'https://github.com/xiaowulang-turbo/Smart-Linkify/blob/main/CHANGELOG.md'
+		'https://github.com/shiroixw/Smart-Linkify/blob/main/CHANGELOG.md'
 
 	function stripPresentationEmoji(markdown) {
 		return markdown.replace(
