@@ -43,7 +43,7 @@
 			name="twitter:image"
 			content="https://smart-linkify.vercel.app/images/og-1280x640.png"
 		/>
-		<title>智能超链接识别 - Smart Linkify – Instant hyperlink conversion</title>
+		<title data-i18n="index.page.title">智能超链接识别 - Smart Linkify – Instant hyperlink conversion</title>
 		<link rel="stylesheet" href="css/style.css" />
 		<link
 			rel="stylesheet"
@@ -116,13 +116,31 @@
 						</button>
 					</li>
 					<li>
-						<button
+						<div
 							class="lang-toggle"
-							onclick="i18n.toggle()"
-							title="切换到 English"
+							role="group"
+							aria-label="切换语言"
+							data-i18n-aria-label="common.switchLang"
 						>
-							中
-						</button>
+							<button
+								type="button"
+								class="lang-option"
+								data-lang="zh-CN"
+								aria-label="中文"
+								aria-pressed="true"
+							>
+								中
+							</button>
+							<button
+								type="button"
+								class="lang-option"
+								data-lang="en"
+								aria-label="English"
+								aria-pressed="false"
+							>
+								EN
+							</button>
+						</div>
 					</li>
 				</ul>
 				<button

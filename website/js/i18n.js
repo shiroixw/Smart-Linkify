@@ -12,6 +12,7 @@ const i18n = {
 			'nav.download': '下载',
 			'nav.docs': '文档',
 			'common.switchTheme': '切换主题',
+			'common.switchLang': '切换语言',
 
 			// Hero 区域
 			'hero.title': '智能超链接识别',
@@ -153,6 +154,10 @@ const i18n = {
 				'© 2024-2026 Smart Linkify – Instant hyperlink conversion. 保留所有权利。',
 			'footer.mit': '基于 MIT 许可证发布',
 
+			// 首页
+			'index.page.title':
+				'智能超链接识别 - Smart Linkify – Instant hyperlink conversion',
+
 			// 隐私政策页面
 			'privacy.page.title': '隐私政策 - 智能超链接识别',
 			'privacy.title': '隐私政策',
@@ -274,6 +279,7 @@ const i18n = {
 			'nav.download': 'Download',
 			'nav.docs': 'Docs',
 			'common.switchTheme': 'Switch theme',
+			'common.switchLang': 'Switch language',
 
 			// Hero 区域
 			'hero.title': 'Smart Linkify – Instant hyperlink conversion',
@@ -422,6 +428,9 @@ const i18n = {
 				'© 2024-2026 Smart Linkify – Instant hyperlink conversion. All rights reserved.',
 			'footer.mit': 'Released under the MIT License',
 
+			// Home page
+			'index.page.title': 'Smart Linkify – Instant hyperlink conversion',
+
 			// Privacy Policy Page
 			'privacy.page.title':
 				'Privacy Policy - Smart Linkify – Instant hyperlink conversion',
@@ -566,7 +575,8 @@ const i18n = {
 		// 应用翻译
 		this.applyTranslations()
 
-		// 更新切换按钮状态
+		// 绑定语言切换并同步当前选中态
+		this.bindLanguageSwitch()
 		this.updateToggleButton()
 	},
 
@@ -638,7 +648,7 @@ const i18n = {
 
 	// 切换语言
 	setLang(lang) {
-		if (this.translations[lang]) {
+		if (this.translations[lang] && lang !== this.currentLang) {
 			this.currentLang = lang
 			localStorage.setItem('lang', lang)
 			document.documentElement.setAttribute(
@@ -650,22 +660,23 @@ const i18n = {
 		}
 	},
 
-	// 切换语言（中英文互切）
-	toggle() {
-		const newLang = this.currentLang === 'zh-CN' ? 'en' : 'zh-CN'
-		this.setLang(newLang)
+	// 绑定语言分段控件：点哪个就切到哪个
+	bindLanguageSwitch() {
+		const options = document.querySelectorAll('.lang-toggle [data-lang]')
+		options.forEach((btn) => {
+			btn.addEventListener('click', () => {
+				this.setLang(btn.getAttribute('data-lang'))
+			})
+		})
 	},
 
-	// 更新切换按钮状态
+	// 用 aria-pressed 表达当前语言，视觉由 CSS 接管
 	updateToggleButton() {
-		const btn = document.querySelector('.lang-toggle')
-		if (btn) {
-			btn.textContent = this.currentLang === 'zh-CN' ? 'EN' : '中'
-			btn.title =
-				this.currentLang === 'zh-CN'
-					? 'Switch to English'
-					: '切换到中文'
-		}
+		const options = document.querySelectorAll('.lang-toggle [data-lang]')
+		options.forEach((btn) => {
+			const active = btn.getAttribute('data-lang') === this.currentLang
+			btn.setAttribute('aria-pressed', active ? 'true' : 'false')
+		})
 	},
 }
 
