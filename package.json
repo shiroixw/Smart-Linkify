@@ -21,6 +21,7 @@
 	"scripts": {
 		"test": "node --test",
 		"pack": "echo \"Use Chrome Extensions page to pack the extension\"",
+		"icons": "node scripts/generate-icons.js",
 		"lint": "echo \"No linter configured yet\"",
 		"prepare": "node scripts/install-hooks.js",
 		"sync-version": "node scripts/sync-version.js",
