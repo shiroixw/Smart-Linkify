@@ -26,9 +26,7 @@ const DESIGN = {
 	/** 圆角方块背景：圆角半径 = 尺寸 × 该比例 */
 	cornerRadiusRatio: 0.22,
 	/** 字形占画布比例（按尺寸微调，小尺寸给得更大以保可读性） */
-	glyphRatio: { 16: 0.66, 32: 0.64, default: 0.58 },
-	/** 不超过该尺寸时换用简化字形 */
-	smallGlyphMaxSize: 16,
+	glyphRatio: { 16: 0.7, 32: 0.64, default: 0.58 },
 	/** 渐变起止色（左上 → 右下） */
 	gradientFrom: [0x25, 0x63, 0xeb],
 	gradientTo: [0x1e, 0x40, 0xaf],
@@ -51,21 +49,7 @@ const GLYPH = {
 		'M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71',
 		'M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71',
 	],
-	/**
-	 * 小尺寸简化字形（Lucide `link-2`）：笔画更少、左右对称，
-	 * 16/32px 下比斜向链条更容易辨认（行业通用的 icon hinting 做法）。
-	 */
-	smallSizePaths: [
-		'M9 17H7A5 5 0 0 1 7 7h2',
-		'M15 7h2a5 5 0 1 1 0 10h-2',
-		'M8 12h8',
-	],
 };
-
-/** 当前尺寸应使用的字形路径 */
-function glyphPathsFor(size) {
-	return size <= DESIGN.smallGlyphMaxSize ? GLYPH.smallSizePaths : GLYPH.paths;
-}
 
 const OUT_DIR = path.join(__dirname, '..', 'extension', 'icons');
 
@@ -305,7 +289,7 @@ const lerp = (a, b, t) => a + (b - a) * t;
 function layoutGlyph(size) {
 	const ratio = DESIGN.glyphRatio[size] ?? DESIGN.glyphRatio.default;
 	const target = size * ratio;
-	const polylines = glyphPathsFor(size).map(parsePath).flat();
+	const polylines = GLYPH.paths.map(parsePath).flat();
 
 	// 描边变粗会撑大包围盒，迭代收敛，保证字形始终落在安全区内
 	let stroke = DESIGN.strokeBase;
