@@ -257,13 +257,31 @@
 						</button>
 					</li>
 					<li>
-						<button
+						<div
 							class="lang-toggle"
-							onclick="i18n.toggle()"
-							title="切换语言"
+							role="group"
+							aria-label="切换语言"
+							data-i18n-aria-label="common.switchLang"
 						>
-							中
-						</button>
+							<button
+								type="button"
+								class="lang-option"
+								data-lang="zh-CN"
+								aria-label="中文"
+								aria-pressed="true"
+							>
+								中
+							</button>
+							<button
+								type="button"
+								class="lang-option"
+								data-lang="en"
+								aria-label="English"
+								aria-pressed="false"
+							>
+								EN
+							</button>
+						</div>
 					</li>
 				</ul>
 				<button
