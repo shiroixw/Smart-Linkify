@@ -2,22 +2,17 @@
 ;(function () {
 	'use strict'
 
-	// 默认配置
-	let config = {
-		openInNewTab: true,
-		excludedTags: [
-			'SCRIPT',
-			'STYLE',
-			'NOSCRIPT',
-			'TEXTAREA',
-			'PRE',
-			'CODE',
-			'A',
-		],
-		urlPattern: /(?:https?:\/\/|ftp:\/\/|www\.)[a-zA-Z0-9][-a-zA-Z0-9]*(?:\.[a-zA-Z0-9][-a-zA-Z0-9]*)+\.[a-zA-Z]{2,}(?::\d+)?(?:\/[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)?/gi,
-		emailPattern: /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/g,
-		whitelist: [],
+	const Linkify = globalThis.SmartLinkify
+	const configLib = globalThis.SmartLinkifyConfig
+
+	// lib 依赖缺失时明确报错，避免"静默全站不生效"
+	if (!Linkify || !configLib) {
+		console.error('[Smart Linkify] lib 未加载，内容脚本已停用')
+		return
 	}
+
+	// 默认配置与 background / options 共用同一来源
+	let config = configLib.createDefaultConfig()
 
 	let convertedCount = 0
 	let sendCountTimer = null
@@ -32,47 +27,6 @@
 	function scheduleSendLinkCount() {
 		clearTimeout(sendCountTimer)
 		sendCountTimer = setTimeout(sendLinkCount, 300)
-	}
-
-	// URL验证过滤器 - 排除误匹配
-	const URL_VALIDATORS = {
-		// 排除纯数字IP-like (13804.46)
-		isNumericOnly: (url) => /^\d+(\.\d+)+$/.test(url),
-
-		// 排除版本号模式 (1.2.3.4, 1.0.0.290)
-		isVersionNumber: (url) => /^\d+(\.\d+){2,}$/.test(url),
-
-		// 排除常见文件扩展名（无路径时）
-		isFileExtension: (url) => {
-			const fileExtPattern = /^(?!.*\/)[^\s]+\.(js|css|json|xml|yaml|yml|md|txt|log|min|map|ts|tsx|jsx|vue|py|java|cpp|c|h|go|rs|php|rb)$/i
-			return fileExtPattern.test(url)
-		},
-
-		// 排除纯数字统计值 (如 13804.46/100000 中的 13804.46)
-		isNumericStat: (url) => /^\d+\.\d{1,2}$/.test(url) && parseFloat(url) > 1000,
-	}
-
-	// 验证URL是否有效
-	function isValidUrl(url) {
-		// 如果禁用了严格模式，只进行基本验证
-		if (config.strictMode === false) {
-			return !URL_VALIDATORS.isNumericOnly(url)
-		}
-
-		// 快速排除明显无效的匹配
-		if (URL_VALIDATORS.isNumericOnly(url)) return false
-		if (URL_VALIDATORS.isVersionNumber(url)) return false
-		if (URL_VALIDATORS.isNumericStat(url)) return false
-
-		// 根据配置决定是否排除文件扩展名
-		if (config.excludeFileExt !== false && URL_VALIDATORS.isFileExtension(url)) {
-			return false
-		}
-
-		// 确保至少包含一个字母（排除纯数字IP被误识别）
-		if (!/[a-zA-Z]/.test(url)) return false
-
-		return true
 	}
 
 	// 标记已处理的节点
@@ -154,58 +108,18 @@
 			return
 		}
 
-		// 检查是否包含 URL 或邮箱
-		const hasUrl = config.urlPattern.test(text)
-		const hasEmail = config.emailPattern.test(text)
+		// 识别与去重都在 lib 内完成
+		const uniqueMatches = Linkify.findLinks(text, {
+			strictMode: config.strictMode,
+			excludeFileExt: config.excludeFileExt,
+		})
 
-		if (!hasUrl && !hasEmail) {
+		if (uniqueMatches.length === 0) {
 			return
 		}
 
-		// 重置正则表达式
-		config.urlPattern.lastIndex = 0
-		config.emailPattern.lastIndex = 0
-
 		const fragment = document.createDocumentFragment()
 		let lastIndex = 0
-		const matches = []
-
-		// 收集所有匹配
-		let match
-		const urlRegex = new RegExp(config.urlPattern.source, 'gi')
-		while ((match = urlRegex.exec(text)) !== null) {
-			const matchedText = match[0]
-			// 验证URL有效性，排除误匹配
-			if (isValidUrl(matchedText)) {
-				matches.push({
-					index: match.index,
-					length: match[0].length,
-					text: matchedText,
-					type: 'url',
-				})
-			}
-		}
-
-		const emailRegex = new RegExp(config.emailPattern.source, 'g')
-		while ((match = emailRegex.exec(text)) !== null) {
-			matches.push({
-				index: match.index,
-				length: match[0].length,
-				text: match[0],
-				type: 'email',
-			})
-		}
-
-		// 按位置排序并去重
-		matches.sort((a, b) => a.index - b.index)
-		const uniqueMatches = []
-		let lastEnd = 0
-		for (const match of matches) {
-			if (match.index >= lastEnd) {
-				uniqueMatches.push(match)
-				lastEnd = match.index + match.length
-			}
-		}
 
 		// 构建新的 DOM 结构
 		uniqueMatches.forEach((match) => {
@@ -221,17 +135,7 @@
 			// 创建链接
 			const link = document.createElement('a')
 			link.textContent = match.text
-
-			if (match.type === 'email') {
-				link.href = 'mailto:' + match.text
-			} else {
-				// 处理 URL
-				let href = match.text
-				if (!/^https?:\/\//i.test(href)) {
-					href = 'http://' + href
-				}
-				link.href = href
-			}
+			link.href = match.href
 
 			if (config.openInNewTab) {
 				link.target = '_blank'
@@ -253,10 +157,8 @@
 			)
 		}
 
-		if (uniqueMatches.length > 0) {
-			convertedCount += uniqueMatches.length
-			textNode.parentNode.replaceChild(fragment, textNode)
-		}
+		convertedCount += uniqueMatches.length
+		textNode.parentNode.replaceChild(fragment, textNode)
 	}
 
 	// 监听 DOM 变化

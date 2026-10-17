@@ -1,22 +1,9 @@
 // 智能超链接识别 - 后台脚本
 
-const defaultConfig = {
-	openInNewTab: true,
-	excludedTags: [
-		'SCRIPT',
-		'STYLE',
-		'NOSCRIPT',
-		'TEXTAREA',
-		'PRE',
-		'CODE',
-		'A',
-	],
-	whitelist: [],
-	theme: 'auto',
-	lang: 'auto',
-	strictMode: true,
-	excludeFileExt: true,
-}
+// 默认配置唯一来源（与 content / options 共用）
+importScripts('lib/config.js')
+
+const defaultConfig = globalThis.SmartLinkifyConfig.createDefaultConfig()
 
 // 安装或更新时的处理
 chrome.runtime.onInstalled.addListener((details) => {
