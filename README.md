@@ -161,6 +161,24 @@ The canonical version is the `version` field in `package.json`. Use `npm version
 4. Push to the branch (`git push origin feature/FixUrlRegex`)
 5. Create a Pull Request
 
+### Stacked pull requests
+
+Large changes are split into a PR chain using GitHub's first-party [`gh stack`](https://github.com/github/gh-stack) extension — no hand-rolled bases:
+
+```bash
+gh extension install github/gh-stack   # one-off
+gh stack init                 # start a stack from the current branch
+gh stack add <branch>         # stack another layer on top
+gh stack submit               # create/update the chain (each PR's base = the branch below it)
+gh stack sync                 # after a lower PR merges: cascade rebase, re-link, prune merged branches
+gh stack merge                # merge the stack bottom-up in one go
+```
+
+Two rules that matter more than the tooling:
+
+- **Never push to a branch whose PR is already merged.** Those commits end up in no PR at all (this bit us: the work looked merged, yet `main` never got it). Open a new branch from `main` instead.
+- If a stack is created by hand, the closing move after the parent PR lands is `gh pr edit <child> --base main`.
+
 ### Development Guidelines
 
 -   Follow JavaScript ES6+ standards; put new logic in `extension/lib/` with unit tests
