@@ -124,10 +124,9 @@ Smart-Linkify/
 │   ├── options.css      # 设置页面样式
 │   ├── options.js       # 设置页面逻辑
 │   ├── welcome.html     # 欢迎页面
-│   └── icons/           # 图标文件夹
-│       ├── icon16.png
-│       ├── icon48.png
-│       └── icon128.png
+│   └── icons/           # 图标文件夹（由 scripts/generate-icons.js 生成）
+│       ├── icon.svg     # 矢量源文件（唯一改动入口）
+│       └── icon{16,32,48,96,128,256}.png
 ├── website/             # 项目官网
 │   ├── index.html       # 官网首页
 │   ├── css/

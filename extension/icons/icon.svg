@@ -1,0 +1,17 @@
+<!-- Smart Linkify 图标（由 scripts/generate-icons.js 生成，勿手改）
+     字形：Lucide "link" (ISC License, https://lucide.dev) -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" fill="none">
+	<defs>
+		<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+			<stop offset="0" stop-color="#2563eb"/>
+			<stop offset="1" stop-color="#1e40af"/>
+		</linearGradient>
+	</defs>
+	<rect width="128" height="128" rx="28.16" fill="url(#bg)"/>
+	<g transform="translate(23.292 23.292) scale(3.3923)"
+	   stroke="#ffffff" stroke-width="2.000"
+	   stroke-linecap="round" stroke-linejoin="round">
+		<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+		<path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+	</g>
+</svg>
