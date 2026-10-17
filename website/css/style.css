@@ -66,10 +66,12 @@
 	--text-h2: clamp(1.75rem, 3vw, 2.25rem);
 	--text-h1: clamp(2.25rem, 4vw, 3rem);
 	--text-display: clamp(3rem, 7vw, 5rem);
+	--leading-display: 1.1;
 	--leading-tight: 1.2;
 	--leading-snug: 1.4;
 	--leading-normal: 1.6;
 	--leading-relaxed: 1.7;
+	--tracking-display: -0.03em;
 	--tracking-tight: -0.02em;
 	--tracking-snug: -0.01em;
 
@@ -263,9 +265,9 @@ body {
 
 .hero-title {
 	font-size: var(--text-display);
-	font-weight: 600;
-	letter-spacing: var(--tracking-tight);
-	line-height: var(--leading-tight);
+	font-weight: 700;
+	letter-spacing: var(--tracking-display);
+	line-height: var(--leading-display);
 	margin-bottom: var(--space-4);
 	color: var(--color-text);
 	/* 避免中文标题出现「最后一行只剩一个字」的孤字 */
@@ -574,7 +576,8 @@ body {
 .section-title {
 	font-size: var(--text-h2);
 	font-weight: 600;
-	letter-spacing: var(--tracking-snug);
+	letter-spacing: var(--tracking-tight);
+	line-height: var(--leading-tight);
 	margin-bottom: var(--space-3);
 	color: var(--color-text);
 }
