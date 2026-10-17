@@ -23,7 +23,6 @@ document.addEventListener('DOMContentLoaded', function () {
 	const statusText = document.getElementById('statusText')
 	const currentDomainEl = document.getElementById('currentDomain')
 	const linkCountEl = document.getElementById('linkCount')
-	const linkCountCard = document.getElementById('linkCountCard')
 	const statsGrid = document.getElementById('statsGrid')
 	const infoActive = document.getElementById('infoActive')
 	const infoInactive = document.getElementById('infoInactive')
@@ -58,6 +57,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
 		currentHostname = parsedUrl.hostname
 		currentDomainEl.textContent = currentHostname
+		// 超长域名在 UI 上省略，完整值留给 title 与读屏
+		currentDomainEl.title = currentHostname
 
 		// 检查当前站点是否在白名单中
 		chrome.storage.sync.get(['config'], function (result) {
@@ -142,7 +143,6 @@ document.addEventListener('DOMContentLoaded', function () {
 			infoActive.style.display = ''
 			infoInactive.style.display = 'none'
 			infoUnsupported.style.display = 'none'
-			linkCountCard.classList.remove('disabled')
 		} else {
 			setStatus('popup.status.disabled', 'status-disabled')
 			statsGrid.style.display = 'none'
@@ -155,6 +155,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	function showUnsupported() {
 		currentDomainEl.textContent = '—'
+		currentDomainEl.title = ''
 		siteToggle.disabled = true
 		setStatus('popup.status.unsupported', 'status-unsupported')
 		statsGrid.style.display = 'none'

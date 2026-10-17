@@ -46,6 +46,7 @@ body {
 .domain-section {
 	display: flex;
 	align-items: center;
+	min-width: 0;
 	padding: var(--sl-space-3) 15px;
 	background: var(--sl-color-surface-accent);
 	border-radius: var(--sl-radius);
@@ -53,11 +54,14 @@ body {
 	border: 1px solid var(--sl-color-border-accent);
 }
 
+/* 域名不是链接：用正文色；超长域名单行省略，完整值放 title，避免把弹窗撑高 */
 .domain-name {
-	font-size: 15px;
+	font-size: 14px;
 	font-weight: 600;
-	color: var(--sl-color-accent);
-	word-break: break-all;
+	color: var(--sl-color-text);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 /* 开关区域 */
@@ -127,17 +131,24 @@ input:disabled + .slider {
 	cursor: not-allowed;
 }
 
-/* 状态文案（颜色由 token 决定，JS 只切换 class） */
-.status-enabled {
-	color: var(--sl-color-success);
+/* 原生 input 透明：焦点环画在滑块上，键盘用户才看得见当前焦点 */
+input:focus-visible + .slider {
+	outline: 2px solid var(--sl-color-accent);
+	outline-offset: 2px;
 }
 
+/* 状态文案（颜色由 token 决定，JS 只切换 class） */
+.status-enabled {
+	color: var(--sl-color-success-text);
+}
+
+/* 未启用是中性状态，不用危险色 */
 .status-disabled {
-	color: var(--sl-color-danger);
+	color: var(--sl-color-text-muted);
 }
 
 .status-unsupported {
-	color: var(--sl-color-text-subtle);
+	color: var(--sl-color-text-muted);
 }
 
 /* 信息文本 */
@@ -152,9 +163,9 @@ input:disabled + .slider {
 	margin-bottom: var(--sl-space-2);
 }
 
+/* 提示语与启用态说明同栏对齐、同色阶，避免"换状态就换排版" */
 .hint-inactive p {
-	text-align: center;
-	color: var(--sl-color-text-subtle);
+	color: var(--sl-color-text-muted);
 }
 
 /* 统计卡片 */
@@ -173,13 +184,6 @@ input:disabled + .slider {
 	background: var(--sl-color-surface-accent);
 	border-radius: var(--sl-radius-lg);
 	border: 1px solid var(--sl-color-border-accent);
-	transition: transform var(--sl-dur) var(--sl-ease),
-		box-shadow var(--sl-dur) var(--sl-ease);
-}
-
-.stat-card:hover {
-	transform: translateY(-1px);
-	box-shadow: var(--sl-shadow-accent-soft);
 }
 
 .stat-number {
@@ -195,21 +199,12 @@ input:disabled + .slider {
 	margin-top: var(--sl-space-1);
 }
 
-.stat-card.disabled {
-	background: var(--sl-color-danger-surface);
-	border-color: var(--sl-color-danger-border);
-}
-
-.stat-card.disabled .stat-number {
-	color: var(--sl-color-danger);
-}
-
 /* 版本号 */
 .version {
 	text-align: center;
 	padding: var(--sl-space-1-5);
 	font-size: 10px;
-	color: var(--sl-color-text-faint);
+	color: var(--sl-color-text-muted);
 }
 
 /* 底部按钮 */
@@ -224,13 +219,14 @@ input:disabled + .slider {
 .btn {
 	flex: 1;
 	padding: 10px;
-	border: none;
+	border: 1px solid transparent;
 	border-radius: var(--sl-radius-sm);
 	background: var(--sl-gradient-brand);
 	color: var(--sl-color-on-accent);
 	font-size: 13px;
 	cursor: pointer;
-	transition: transform var(--sl-dur) var(--sl-ease),
+	transition: background-color var(--sl-dur) var(--sl-ease),
+		border-color var(--sl-dur) var(--sl-ease),
 		box-shadow var(--sl-dur) var(--sl-ease);
 	font-weight: 500;
 	display: flex;
@@ -247,13 +243,25 @@ input:disabled + .slider {
 	display: block;
 }
 
+/* 320px 弹窗里位移+投影会显得抖，主按钮只加一层柔和投影 */
 .btn:hover {
-	transform: translateY(-2px);
-	box-shadow: var(--sl-shadow-accent);
+	box-shadow: var(--sl-shadow-accent-soft);
 }
 
 .btn:active {
-	transform: translateY(0);
+	box-shadow: none;
+}
+
+/* 次级操作：描边按钮，不与"设置"抢主操作 */
+.btn-secondary {
+	background: var(--sl-color-surface);
+	border-color: var(--sl-color-border);
+	color: var(--sl-color-text);
+}
+
+.btn-secondary:hover {
+	background: var(--sl-color-surface-muted);
+	box-shadow: none;
 }
 
 /* 主题 / 语言切换按钮 */
