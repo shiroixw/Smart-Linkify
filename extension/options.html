@@ -4,7 +4,9 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title data-i18n="options.title">设置 - 智能超链接识别</title>
+		<link rel="stylesheet" href="shared/tokens.css" />
 		<link rel="stylesheet" href="options.css" />
+		<script src="shared/theme.js"></script>
 	</head>
 	<body>
 		<div class="container">
@@ -70,14 +72,16 @@
 									>在新标签页中打开链接</span
 								>
 							</label>
-							<button
-								type="button"
-								class="help-tip"
-								data-i18n-aria-label="common.help"
-								aria-label="说明"
-								aria-describedby="help-newTab"
-							>
-								<span class="help-tip-mark" aria-hidden="true">?</span>
+							<span class="help-wrap">
+								<button
+									type="button"
+									class="help-tip"
+									data-i18n-aria-label="common.help"
+									aria-label="说明"
+									aria-describedby="help-newTab"
+								>
+									<span class="help-tip-mark" aria-hidden="true">?</span>
+								</button>
 								<span
 									id="help-newTab"
 									class="help-tip-text"
@@ -85,7 +89,7 @@
 									data-i18n="options.basic.newTab.desc"
 									>启用后，点击转换的链接将在新标签页中打开</span
 								>
-							</button>
+							</span>
 						</div>
 					</div>
 				</section>
@@ -99,14 +103,16 @@
 								data-i18n="options.appearance.theme"
 								>主题模式</label
 							>
-							<button
-								type="button"
-								class="help-tip"
-								data-i18n-aria-label="common.help"
-								aria-label="说明"
-								aria-describedby="help-theme"
-							>
-								<span class="help-tip-mark" aria-hidden="true">?</span>
+							<span class="help-wrap">
+								<button
+									type="button"
+									class="help-tip"
+									data-i18n-aria-label="common.help"
+									aria-label="说明"
+									aria-describedby="help-theme"
+								>
+									<span class="help-tip-mark" aria-hidden="true">?</span>
+								</button>
 								<span
 									id="help-theme"
 									class="help-tip-text"
@@ -114,7 +120,7 @@
 									data-i18n="options.appearance.theme.desc"
 									>选择插件界面的主题模式，“跟随系统”将自动适配您的操作系统设置</span
 								>
-							</button>
+							</span>
 						</div>
 						<div class="theme-options">
 							<label class="radio-label">
@@ -159,14 +165,16 @@
 								data-i18n="options.appearance.lang"
 								>界面语言</label
 							>
-							<button
-								type="button"
-								class="help-tip"
-								data-i18n-aria-label="common.help"
-								aria-label="说明"
-								aria-describedby="help-lang"
-							>
-								<span class="help-tip-mark" aria-hidden="true">?</span>
+							<span class="help-wrap">
+								<button
+									type="button"
+									class="help-tip"
+									data-i18n-aria-label="common.help"
+									aria-label="说明"
+									aria-describedby="help-lang"
+								>
+									<span class="help-tip-mark" aria-hidden="true">?</span>
+								</button>
 								<span
 									id="help-lang"
 									class="help-tip-text"
@@ -174,7 +182,7 @@
 									data-i18n="options.appearance.lang.desc"
 									>选择插件界面语言，“自动检测”将根据浏览器语言自动选择</span
 								>
-							</button>
+							</span>
 						</div>
 						<div class="theme-options">
 							<label class="radio-label">
@@ -217,14 +225,16 @@
 				<section class="section">
 					<h2>
 						<span data-i18n="options.whitelist.title">已启用的网站</span>
-						<button
-							type="button"
-							class="help-tip"
-							data-i18n-aria-label="common.help"
-							aria-label="说明"
-							aria-describedby="help-whitelist"
-						>
-							<span class="help-tip-mark" aria-hidden="true">?</span>
+						<span class="help-wrap">
+							<button
+								type="button"
+								class="help-tip"
+								data-i18n-aria-label="common.help"
+								aria-label="说明"
+								aria-describedby="help-whitelist"
+							>
+								<span class="help-tip-mark" aria-hidden="true">?</span>
+							</button>
 							<span
 								id="help-whitelist"
 								class="help-tip-text"
@@ -237,7 +247,7 @@
 									>提示：只需输入域名，子域名将自动包含（如输入 github.com 也会匹配 docs.github.com）</span
 								>
 							</span>
-						</button>
+						</span>
 					</h2>
 					<textarea
 						id="whitelist"
@@ -252,14 +262,16 @@
 						<span data-i18n="options.excludedTags.title"
 							>排除的 HTML 标签</span
 						>
-						<button
-							type="button"
-							class="help-tip"
-							data-i18n-aria-label="common.help"
-							aria-label="说明"
-							aria-describedby="help-excludedTags"
-						>
-							<span class="help-tip-mark" aria-hidden="true">?</span>
+						<span class="help-wrap">
+							<button
+								type="button"
+								class="help-tip"
+								data-i18n-aria-label="common.help"
+								aria-label="说明"
+								aria-describedby="help-excludedTags"
+							>
+								<span class="help-tip-mark" aria-hidden="true">?</span>
+							</button>
 							<span
 								id="help-excludedTags"
 								class="help-tip-text"
@@ -273,7 +285,7 @@
 									CODE, A</span
 								>
 							</span>
-						</button>
+						</span>
 					</h2>
 					<input
 						type="text"
@@ -286,14 +298,16 @@
 				<section class="section">
 					<h2>
 						<span data-i18n="options.urlMatch.title">URL 匹配设置</span>
-						<button
-							type="button"
-							class="help-tip"
-							data-i18n-aria-label="common.help"
-							aria-label="说明"
-							aria-describedby="help-urlMatch"
-						>
-							<span class="help-tip-mark" aria-hidden="true">?</span>
+						<span class="help-wrap">
+							<button
+								type="button"
+								class="help-tip"
+								data-i18n-aria-label="common.help"
+								aria-label="说明"
+								aria-describedby="help-urlMatch"
+							>
+								<span class="help-tip-mark" aria-hidden="true">?</span>
+							</button>
 							<span
 								id="help-urlMatch"
 								class="help-tip-text"
@@ -301,7 +315,7 @@
 								data-i18n="options.urlMatch.desc"
 								>配置 URL 识别的精确程度</span
 							>
-						</button>
+						</span>
 					</h2>
 					<div class="option-item">
 						<div class="label-row">
@@ -311,14 +325,16 @@
 									>启用精确匹配模式</span
 								>
 							</label>
-							<button
-								type="button"
-								class="help-tip"
-								data-i18n-aria-label="common.help"
-								aria-label="说明"
-								aria-describedby="help-strictMode"
-							>
-								<span class="help-tip-mark" aria-hidden="true">?</span>
+							<span class="help-wrap">
+								<button
+									type="button"
+									class="help-tip"
+									data-i18n-aria-label="common.help"
+									aria-label="说明"
+									aria-describedby="help-strictMode"
+								>
+									<span class="help-tip-mark" aria-hidden="true">?</span>
+								</button>
 								<span
 									id="help-strictMode"
 									class="help-tip-text"
@@ -326,7 +342,7 @@
 									data-i18n="options.urlMatch.strictMode.desc"
 									>启用后可减少版本号、统计数据等误匹配</span
 								>
-							</button>
+							</span>
 						</div>
 					</div>
 					<div class="option-item">
@@ -337,14 +353,16 @@
 									>排除文件扩展名</span
 								>
 							</label>
-							<button
-								type="button"
-								class="help-tip"
-								data-i18n-aria-label="common.help"
-								aria-label="说明"
-								aria-describedby="help-excludeFileExt"
-							>
-								<span class="help-tip-mark" aria-hidden="true">?</span>
+							<span class="help-wrap">
+								<button
+									type="button"
+									class="help-tip"
+									data-i18n-aria-label="common.help"
+									aria-label="说明"
+									aria-describedby="help-excludeFileExt"
+								>
+									<span class="help-tip-mark" aria-hidden="true">?</span>
+								</button>
 								<span
 									id="help-excludeFileExt"
 									class="help-tip-text"
@@ -352,7 +370,7 @@
 									data-i18n="options.urlMatch.excludeFileExt.desc"
 									>排除 .js, .css, .json 等常见文件扩展名</span
 								>
-							</button>
+							</span>
 						</div>
 					</div>
 				</section>

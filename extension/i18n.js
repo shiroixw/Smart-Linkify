@@ -1,5 +1,6 @@
 // 智能超链接识别 - 扩展国际化模块
 
+/* exported i18n */
 const i18n = {
 	// 翻译词典
 	translations: {
@@ -13,6 +14,7 @@ const i18n = {
 			'popup.info.convert': '自动将纯文本 URL 转换为可点击链接',
 			'popup.info.dynamic': '支持动态内容实时处理',
 			'popup.hint.enable': '点击开关为当前网站启用链接转换',
+			'popup.toggle.label': '为当前网站启用链接转换',
 			'popup.hint.unsupported': '此页面不支持链接转换',
 			'popup.stats.converted': '链接已转换',
 			'popup.btn.settings': '设置',
@@ -122,6 +124,7 @@ const i18n = {
 			'popup.info.dynamic':
 				'Support real-time processing of dynamic content',
 			'popup.hint.enable': 'Toggle the switch to enable link conversion for this site',
+			'popup.toggle.label': 'Enable link conversion on this site',
 			'popup.hint.unsupported': 'Link conversion is not supported on this page',
 			'popup.stats.converted': 'Links Converted',
 			'popup.btn.settings': 'Settings',

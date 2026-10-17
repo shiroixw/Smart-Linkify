@@ -19,10 +19,11 @@
 		"auto-link"
 	],
 	"scripts": {
-		"test": "node --test",
+		"test": "node --test test/*.test.js",
 		"pack": "echo \"Use Chrome Extensions page to pack the extension\"",
 		"icons": "node scripts/generate-icons.js",
-		"lint": "echo \"No linter configured yet\"",
+		"lint": "npx --yes eslint@9 .",
+		"typecheck": "npx --yes tsc -p jsconfig.json",
 		"prepare": "node scripts/install-hooks.js",
 		"sync-version": "node scripts/sync-version.js",
 		"version": "npm run sync-version && git add website/index.html extension/manifest.json README.md README.zh-CN.md"

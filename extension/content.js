@@ -4,9 +4,10 @@
 
 	const Linkify = globalThis.SmartLinkify
 	const configLib = globalThis.SmartLinkifyConfig
+	const DomRules = globalThis.SmartLinkifyDomRules
 
 	// lib 依赖缺失时明确报错，避免"静默全站不生效"
-	if (!Linkify || !configLib) {
+	if (!Linkify || !configLib || !DomRules) {
 		console.error('[Smart Linkify] lib 未加载，内容脚本已停用')
 		return
 	}
@@ -29,8 +30,21 @@
 		sendCountTimer = setTimeout(sendLinkCount, 300)
 	}
 
-	// 标记已处理的节点
-	const PROCESSED_ATTR = 'data-link-converted'
+	// 已处理的元素（WeakSet：不往页面 DOM 上写属性，避免污染宿主页面）
+	const processed = new WeakSet()
+
+	// 链接样式：只注入一次，样式表见 shared/link.css
+	const LINK_STYLE_ID = 'smart-linkify-style'
+	const LINK_CLASS = 'smart-linkify-link'
+
+	function ensureLinkStyle() {
+		if (document.getElementById(LINK_STYLE_ID)) return
+		const styleLink = document.createElement('link')
+		styleLink.id = LINK_STYLE_ID
+		styleLink.rel = 'stylesheet'
+		styleLink.href = chrome.runtime.getURL('shared/link.css')
+		;(document.head || document.documentElement).appendChild(styleLink)
+	}
 
 	// 从存储加载配置
 	function loadConfig() {
@@ -52,6 +66,7 @@
 
 	// 初始化
 	function init() {
+		ensureLinkStyle()
 		processNode(document.body)
 		sendLinkCount()
 		observeDOMChanges()
@@ -63,29 +78,22 @@
 			return
 		}
 
-		// 跳过已处理或排除的标签
+		// 跳过已处理或需要排除的区域（含 contenteditable / role=textbox）
 		if (
-			node.hasAttribute(PROCESSED_ATTR) ||
-			config.excludedTags.includes(node.tagName)
+			processed.has(node) ||
+			DomRules.isExcludedElement(node, config.excludedTags)
 		) {
 			return
 		}
 
-		// 标记为已处理
-		node.setAttribute(PROCESSED_ATTR, 'true')
+		processed.add(node)
 
 		// 遍历子节点
 		const walker = document.createTreeWalker(node, NodeFilter.SHOW_TEXT, {
-			acceptNode: function (node) {
-				// 检查父节点是否应该被排除
-				let parent = node.parentElement
-				while (parent) {
-					if (config.excludedTags.includes(parent.tagName)) {
-						return NodeFilter.FILTER_REJECT
-					}
-					parent = parent.parentElement
-				}
-				return NodeFilter.FILTER_ACCEPT
+			acceptNode: function (textNode) {
+				return DomRules.isExcludedTextNode(textNode, config.excludedTags)
+					? NodeFilter.FILTER_REJECT
+					: NodeFilter.FILTER_ACCEPT
 			},
 		})
 
@@ -142,9 +150,7 @@
 				link.rel = 'noopener noreferrer'
 			}
 
-			link.style.color = '#0066cc'
-			link.style.textDecoration = 'underline'
-			link.setAttribute('data-auto-link', 'true')
+			link.className = LINK_CLASS
 
 			fragment.appendChild(link)
 			lastIndex = match.index + match.length
@@ -164,19 +170,50 @@
 	// 监听 DOM 变化
 	function observeDOMChanges() {
 		const observer = new MutationObserver(function (mutations) {
+			let changed = false
+
 			mutations.forEach(function (mutation) {
+				// 已有文本被原地改写（textContent / nodeValue / 富文本编辑）
+				if (mutation.type === 'characterData') {
+					const target = mutation.target
+					if (
+						target &&
+						target.nodeType === Node.TEXT_NODE &&
+						!DomRules.isExcludedTextNode(target, config.excludedTags)
+					) {
+						convertTextToLinks(target)
+						changed = true
+					}
+					return
+				}
+
 				mutation.addedNodes.forEach(function (node) {
+					// 新增元素：整棵子树扫描
 					if (node.nodeType === Node.ELEMENT_NODE) {
 						processNode(node)
+						changed = true
+						return
+					}
+					// 新增裸文本节点（聊天流、列表虚拟化等）
+					if (
+						node.nodeType === Node.TEXT_NODE &&
+						!DomRules.isExcludedTextNode(node, config.excludedTags)
+					) {
+						convertTextToLinks(node)
+						changed = true
 					}
 				})
 			})
-			scheduleSendLinkCount()
+
+			if (changed) {
+				scheduleSendLinkCount()
+			}
 		})
 
 		observer.observe(document.body, {
 			childList: true,
 			subtree: true,
+			characterData: true,
 		})
 	}
 

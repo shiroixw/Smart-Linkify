@@ -1,17 +1,20 @@
 // 智能超链接识别 - 弹出窗口脚本
 
-// 初始化主题（立即执行，避免闪烁）
-;(function () {
-	chrome.storage.sync.get(['config'], function (result) {
-		const config = result.config || {}
-		const theme = config.theme
-		if (theme === 'dark') {
-			document.documentElement.setAttribute('data-theme', 'dark')
-		} else if (theme === 'light') {
-			document.documentElement.setAttribute('data-theme', 'light')
-		}
-	})
-})()
+// 内容脚本无法（或不应）在这些页面生效
+const BLOCKED_PROTOCOLS = [
+	'chrome:',
+	'chrome-extension:',
+	'chrome-untrusted:',
+	'edge:',
+	'about:',
+	'brave:',
+	'file:',
+	'devtools:',
+	'view-source:',
+	'moz-extension:',
+]
+
+// 主题初始化由 shared/theme.js 负责（在 <head> 中同步引入）
 
 document.addEventListener('DOMContentLoaded', function () {
 	i18n.init()
@@ -40,21 +43,21 @@ document.addEventListener('DOMContentLoaded', function () {
 	chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
 		if (!tabs[0] || !tabs[0].url) return
 
-		const url = tabs[0].url
-		const isSpecialPage = /^(chrome|about|edge|brave|file):/.test(url)
-
-		if (isSpecialPage) {
-			showUnsupported()
-			return
-		}
-
+		let parsedUrl
 		try {
-			currentHostname = new URL(url).hostname
-			currentDomainEl.textContent = currentHostname
+			parsedUrl = new URL(tabs[0].url)
 		} catch {
 			showUnsupported()
 			return
 		}
+
+		if (BLOCKED_PROTOCOLS.indexOf(parsedUrl.protocol) !== -1) {
+			showUnsupported()
+			return
+		}
+
+		currentHostname = parsedUrl.hostname
+		currentDomainEl.textContent = currentHostname
 
 		// 检查当前站点是否在白名单中
 		chrome.storage.sync.get(['config'], function (result) {
@@ -127,18 +130,21 @@ document.addEventListener('DOMContentLoaded', function () {
 		)
 	}
 
+	function setStatus(key, modifierClass) {
+		statusText.textContent = i18n.t(key)
+		statusText.className = 'toggle-label ' + modifierClass
+	}
+
 	function updateUI(whitelisted) {
 		if (whitelisted) {
-			statusText.textContent = i18n.t('popup.status.enabled')
-			statusText.style.color = '#4CAF50'
+			setStatus('popup.status.enabled', 'status-enabled')
 			statsGrid.style.display = ''
 			infoActive.style.display = ''
 			infoInactive.style.display = 'none'
 			infoUnsupported.style.display = 'none'
 			linkCountCard.classList.remove('disabled')
 		} else {
-			statusText.textContent = i18n.t('popup.status.disabled')
-			statusText.style.color = '#F44336'
+			setStatus('popup.status.disabled', 'status-disabled')
 			statsGrid.style.display = 'none'
 			infoActive.style.display = 'none'
 			infoInactive.style.display = ''
@@ -150,27 +156,25 @@ document.addEventListener('DOMContentLoaded', function () {
 	function showUnsupported() {
 		currentDomainEl.textContent = '—'
 		siteToggle.disabled = true
-		statusText.textContent = i18n.t('popup.status.unsupported')
-		statusText.style.color = '#999'
+		setStatus('popup.status.unsupported', 'status-unsupported')
 		statsGrid.style.display = 'none'
 		infoActive.style.display = 'none'
 		infoInactive.style.display = 'none'
 		infoUnsupported.style.display = ''
 	}
 
-	// 主题切换
+	// 主题切换（解析与落盘都交给 shared/theme.js）
 	themeToggle.addEventListener('click', function () {
+		const theme = globalThis.SmartLinkifyTheme
+		const current = theme.resolve(
+			document.documentElement.getAttribute('data-theme')
+		)
+		const newTheme = current === 'dark' ? 'light' : 'dark'
+		theme.apply(newTheme)
+		theme.watch(newTheme)
+
 		chrome.storage.sync.get(['config'], function (result) {
 			const config = result.config || {}
-			const currentTheme =
-				document.documentElement.getAttribute('data-theme')
-			const isDark =
-				currentTheme === 'dark' ||
-				(!currentTheme &&
-					window.matchMedia('(prefers-color-scheme: dark)').matches)
-
-			const newTheme = isDark ? 'light' : 'dark'
-			document.documentElement.setAttribute('data-theme', newTheme)
 			config.theme = newTheme
 			chrome.storage.sync.set({ config: config })
 		})

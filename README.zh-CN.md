@@ -18,9 +18,9 @@
     -   包含协议的 URL (例如：`https://`, `http://`, `ftp://`)
     -   不包含协议但常见的域名格式 (例如：`www.example.com`, `example.com/page`)
     -   邮件地址 (例如：`user@domain.com`)
--   **⚡ 实时动态处理:** 不仅处理页面加载时的内容，还能处理通过 AJAX 或 JavaScript 动态加载进来的新内容（例如，在滚动或点击"加载更多"时）。
--   **🧠 智能排除:** 插件设计有智能规则，会跳过已是超链接内部的文本，以及 `<pre>`, `<code>`, `<script>`, `<style>` 等标签内的内容，以避免破坏代码展示或页面样式。
--   **🛠️ 高度可配置:** 用户可以在设置中调整识别的正则表达式、排除的 HTML 标签，以及新创建链接的属性（例如：是否默认设置 `target="_blank"` 新窗口打开）。
+-   **⚡ 实时动态处理:** 既处理页面加载时的内容，也处理通过 AJAX 或 JavaScript 动态插入的新内容（滚动、点击"加载更多"、路由切换等）。
+-   **🧠 智能排除:** 跳过已是超链接内部的文本，以及 `<pre>`, `<code>`, `<script>`, `<style>`, `<textarea>` 与 `contenteditable` 可编辑区域内的内容，避免破坏代码展示、页面样式或用户正在编辑的文本。
+-   **🛠️ 按站点启用:** 默认不修改任何页面。在弹窗中为当前网站打开开关后才生效，支持子域名（启用 `github.com` 同时覆盖 `docs.github.com`），可在设置里批量管理。
 -   **🔒 安全与性能:** 转换过程快速高效，所有操作都在本地完成，不会对您的浏览速度造成明显影响，且不收集任何数据。
 
 ## 🌐 官网
@@ -55,36 +55,38 @@
 
 ## 🔧 使用方法
 
-安装完成后，插件将自动在您访问的网页上运行。
+安装完成后，插件**不会**立刻修改任何网页 —— 需要先为站点启用。
 
 ### 基本使用
 
-1. **自动转换:** 访问任何包含纯文本 URL 的页面。您会发现这些文本（例如：`google.com`）现在有了下划线，并且可以像正常的超链接一样点击。
+1. **为站点启用:** 点击浏览器工具栏上的插件图标，打开"当前网站"的开关。页面会重新加载，此后该站点上的纯文本 URL 才会变成可点击链接。
 
-2. **激活/禁用:** 点击浏览器工具栏上的插件图标 (✍️)，可以快速启用或禁用插件功能，以应对可能需要关闭转换的特定网站。
+2. **查看转换数量:** 工具栏图标上的数字徽章表示当前页面已转换的链接数，弹窗中也会显示同一计数。
 
-3. **设置调整:** 右键点击插件图标 (✍️)，选择 **"选项"**，您可以：
-    - 调整新链接是否在新标签页打开
-    - 添加网站黑名单（在特定网站禁用插件）
+3. **设置调整:** 点击弹窗里的"设置"，或右键插件图标选择 **"选项"**，您可以：
+    - 调整转换出的链接是否在新标签页打开
+    - 管理"已启用的网站"列表（每行一个域名）
     - 自定义排除的 HTML 标签
+    - 切换"精确匹配模式"与"排除文件扩展名"，减少版本号、统计数据、`config.json` 等误识别
+    - 切换界面主题与语言
 
 ### 示例场景
 
-**转换前：**
+**在已启用的站点上，页面中的：**
 
 ```
 访问我们的网站 www.example.com 或发送邮件到 contact@example.com
 更多信息请查看 https://github.com/example/project
 ```
 
-**转换后：**
+**会变成：**
 
 ```
 访问我们的网站 [www.example.com] 或发送邮件到 [contact@example.com]
 更多信息请查看 [https://github.com/example/project]
 ```
 
-（方括号内的文本将变成可点击的超链接）
+（方括号内的文本将变成可点击的超链接；未启用的网站上不会有任何变化）
 
 ## 💻 开发与贡献
 
@@ -103,43 +105,49 @@
 
     - 打开 `chrome://extensions`
     - 确保 **"开发者模式"** 启用
-    - 点击 **"加载已解压的扩展程序"**，并选择项目根目录
+    - 点击 **"加载已解压的扩展程序"**，选择仓库内的 `extension/` 目录
 
 3. **修改代码后刷新:**
     - 在 `chrome://extensions` 页面点击插件的刷新按钮
     - 或者重新加载扩展程序
+    - 修改 `content.js` 后还需要刷新目标网页（内容脚本不会热更新）
 
 ### 项目结构
 
 ```
 Smart-Linkify/
-├── extension/            # Chrome 扩展程序
-│   ├── manifest.json    # 插件配置文件
-│   ├── background.js    # 后台服务脚本
-│   ├── content.js       # 内容脚本（核心转换逻辑）
-│   ├── popup.html       # 弹出窗口界面
-│   ├── popup.css        # 弹出窗口样式
-│   ├── popup.js         # 弹出窗口逻辑
-│   ├── options.html     # 设置页面界面
-│   ├── options.css      # 设置页面样式
-│   ├── options.js       # 设置页面逻辑
-│   ├── welcome.html     # 欢迎页面
-│   └── icons/           # 图标文件夹（由 scripts/generate-icons.js 生成）
-│       ├── icon.svg     # 矢量源文件（唯一改动入口）
-│       └── icon{16,32,48,96,128,256}.png
-├── website/             # 项目官网
-│   ├── index.html       # 官网首页
-│   ├── css/
-│   │   └── style.css    # 官网样式
-│   ├── js/
-│   │   └── main.js      # 官网脚本
-│   └── images/          # 官网图片
-└── docs/                # 文档文件
-    ├── README.md
-    ├── INSTALL.md
-    ├── QUICKSTART.md
-    └── ...
+├── extension/                # Chrome 扩展（"加载已解压的扩展程序"选这个目录）
+│   ├── manifest.json
+│   ├── background.js         # Service Worker：配置迁移、白名单、徽章
+│   ├── content.js            # 内容脚本：DOM 遍历与转换调度
+│   ├── lib/                  # 纯函数核心模块，可在 Node 中直接测试
+│   │   ├── linkify.js        # URL / 邮箱识别
+│   │   ├── dom-rules.js      # 排除规则
+│   │   └── config.js         # 配置默认值（单一来源）
+│   ├── shared/               # 跨页面共享资源
+│   │   ├── tokens.css        # 设计 token（颜色/间距/圆角/动效）
+│   │   ├── theme.js          # 主题解析（auto → light/dark）
+│   │   └── link.css          # 注入页面的链接样式
+│   ├── popup.*               # 弹窗
+│   ├── options.*             # 设置页
+│   ├── welcome.*             # 首装引导
+│   └── icons/                # icon.svg 为矢量源，PNG 由脚本生成
+├── website/                  # 官网（静态站点）
+├── test/                     # node:test 单元测试
+├── scripts/                  # 版本同步、git hook、图标生成
+├── docs/superpowers/         # 设计与分析文档
+└── .github/workflows/ci.yml  # CI：测试 / Lint / 类型检查
 ```
+
+### 测试与质量门禁
+
+```bash
+npm test                     # node:test 单元测试
+npx eslint .                 # ESLint
+npx tsc -p jsconfig.json     # JSDoc 类型检查（覆盖 extension/lib）
+```
+
+仓库没有运行时依赖，因此工具链不写进 `package.json`，首次执行由 `npx` 自动拉取。CI（`.github/workflows/ci.yml`）在每次 PR 上运行上述三项，并额外校验 `manifest.json` 合法性与版本号一致性。
 
 ### 版本号同步
 
@@ -155,24 +163,25 @@ Smart-Linkify/
 
 ### 开发规范
 
--   遵循 JavaScript ES6+ 标准
--   保持代码简洁易读
--   添加必要的注释
--   测试新功能在不同网站上的表现
+-   遵循 JavaScript ES6+ 标准；新逻辑优先沉淀到 `extension/lib/` 并配单元测试
+-   保持代码简洁易读，必要时补充注释
+-   提交前确保 `npm test`、`npx eslint .`、`npx tsc -p jsconfig.json` 全绿
+-   在真实网站上验证新功能，特别注意 `contenteditable` 与 Shadow DOM 场景
+-   视觉相关的颜色 / 间距 / 动效走 `extension/shared/tokens.css`，不要硬编码
 
 ## 🐛 已知问题
 
 -   某些使用 Shadow DOM 的网站可能无法正常转换
 -   极少数情况下可能与其他扩展程序冲突
+-   只改文本、不新增元素的高频更新（如 `element.textContent = …`）已由 `characterData` 监听覆盖，但刷新极快的页面仍可能漏掉个别更新
 
 ## 🗺️ 开发路线图
 
+-   [ ] 用 `optional_host_permissions` + 按需注入替代当前的 `<all_urls>`，减少安装时的权限提示
 -   [ ] 支持自定义 URL 匹配规则
 -   [ ] 添加链接预览功能
--   [ ] 支持更多协议（如 `ftp://`, `file://`）
--   [ ] 添加统计功能（显示转换的链接数量）
--   [ ] 支持国际化（多语言）
--   [ ] 优化性能，减少大型页面的处理时间
+-   [ ] 支持 `file://` 等更多协议
+-   [ ] 超大页面分批处理，进一步降低主线程占用
 
 ## 📜 许可
 

@@ -30,9 +30,20 @@
 	"content_scripts": [
 		{
 			"matches": ["<all_urls>"],
-			"js": ["lib/linkify.js", "lib/config.js", "content.js"],
+			"js": [
+				"lib/linkify.js",
+				"lib/config.js",
+				"lib/dom-rules.js",
+				"content.js"
+			],
 			"run_at": "document_idle",
 			"all_frames": false
+		}
+	],
+	"web_accessible_resources": [
+		{
+			"resources": ["shared/link.css"],
+			"matches": ["<all_urls>"]
 		}
 	],
 	"options_page": "options.html",

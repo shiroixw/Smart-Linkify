@@ -35,7 +35,7 @@ function writeIfChanged(filePath, nextContent) {
 }
 
 function syncIndexHtml(version) {
-	let html = fs.readFileSync(HTML_PATH, 'utf8')
+	const html = fs.readFileSync(HTML_PATH, 'utf8')
 	const byId = new RegExp(
 		'(<div class="stat-number" id="siteVersionDisplay">)[\\d.]+(</div>)'
 	)
@@ -50,14 +50,14 @@ function syncIndexHtml(version) {
 }
 
 function syncManifest(version) {
-	let text = fs.readFileSync(MANIFEST_PATH, 'utf8')
+	const text = fs.readFileSync(MANIFEST_PATH, 'utf8')
 	const next = text.replace(/"version"\s*:\s*"[^"]*"/, `"version": "${version}"`)
 	return writeIfChanged(MANIFEST_PATH, next)
 }
 
 function syncReadmeBadge(filePath, version) {
 	if (!fs.existsSync(filePath)) return false
-	let text = fs.readFileSync(filePath, 'utf8')
+	const text = fs.readFileSync(filePath, 'utf8')
 	const next = text.replace(
 		/(img\.shields\.io\/badge\/Version-)[\d.]+(-blue)/g,
 		`$1${version}$2`

@@ -18,9 +18,9 @@ No more copying and pasting text links into the address bar! This extension make
     -   URLs with protocols (e.g., `https://`, `http://`, `ftp://`)
     -   Common domain formats without protocols (e.g., `www.example.com`, `example.com/page`)
     -   Email addresses (e.g., `user@domain.com`)
--   **⚡ Real-time Dynamic Processing:** Handles not only content loaded during page load but also new content dynamically loaded via AJAX or JavaScript (e.g., when scrolling or clicking "load more").
--   **🧠 Smart Exclusion:** Designed with intelligent rules that skip text already inside hyperlinks and content within `<pre>`, `<code>`, `<script>`, `<style>` tags to avoid breaking code display or page styling.
--   **🛠️ Highly Configurable:** Users can adjust recognition regex patterns, excluded HTML tags, and attributes for newly created links (e.g., whether to open in `target="_blank"` by default).
+-   **⚡ Real-time Dynamic Processing:** Handles not only content loaded during page load but also new content inserted via AJAX or JavaScript (scrolling, "load more", client-side route changes).
+-   **🧠 Smart Exclusion:** Skips text already inside hyperlinks, and content within `<pre>`, `<code>`, `<script>`, `<style>`, `<textarea>` and `contenteditable` regions — so code blocks, page styling and your own typing stay untouched.
+-   **🛠️ Opt-in per site:** Nothing is modified by default. Turn the toggle on for the current site in the popup; subdomains are covered (enabling `github.com` also covers `docs.github.com`) and the list can be managed in bulk from the options page.
 -   **🔒 Security & Performance:** Fast and efficient conversion process, all operations are performed locally, won't significantly impact browsing speed, and no data is collected.
 
 ## 🌐 Official Website
@@ -55,36 +55,38 @@ Website source code is located in the `website/` directory.
 
 ## 🔧 Usage
 
-After installation, the extension will automatically run on pages you visit.
+After installation the extension does **not** touch any page yet — you opt in per site first.
 
 ### Basic Usage
 
-1. **Auto Conversion:** Visit any page containing plain text URLs. You'll notice these texts (e.g., `google.com`) now have underlines and can be clicked like normal hyperlinks.
+1. **Enable for a site:** Click the extension icon in the toolbar and turn on the toggle for the current site. The page reloads, and from then on plain text URLs on that site become clickable.
 
-2. **Activate/Disable:** Click the extension icon (✍️) in the browser toolbar to quickly enable or disable the extension functionality for specific websites.
+2. **See the count:** The number badge on the toolbar icon shows how many links were converted on the current page; the popup shows the same number.
 
-3. **Settings:** Right-click the extension icon (✍️), select **"Options"**, you can:
-    - Adjust whether new links open in new tabs
-    - Add website blacklist (disable extension on specific sites)
+3. **Settings:** Click **Settings** in the popup, or right-click the icon and choose **Options**, where you can:
+    - Choose whether converted links open in a new tab
+    - Manage the enabled-sites list (one domain per line)
     - Customize excluded HTML tags
+    - Toggle strict matching and file-extension exclusion to avoid matching version numbers, statistics or `config.json`
+    - Switch UI theme and language
 
 ### Example Scenario
 
-**Before Conversion:**
+**On an enabled site, this text:**
 
 ```
 Visit our website www.example.com or email contact@example.com
 For more info see https://github.com/example/project
 ```
 
-**After Conversion:**
+**becomes:**
 
 ```
 Visit our website [www.example.com] or email [contact@example.com]
 For more info see [https://github.com/example/project]
 ```
 
-(Text in brackets becomes clickable hyperlinks)
+(Text in brackets becomes clickable hyperlinks; on sites that are not enabled nothing changes)
 
 ## 💻 Development & Contributing
 
@@ -103,43 +105,49 @@ All forms of contributions are welcome! If you want to participate in project de
 
     - Open `chrome://extensions`
     - Ensure **"Developer mode"** is enabled
-    - Click **"Load unpacked"** and select the project root directory
+    - Click **"Load unpacked"** and select the `extension/` directory
 
 3. **Refresh after code changes:**
     - Click the refresh button for the extension on the `chrome://extensions` page
     - Or reload the extension
+    - After editing `content.js`, also reload the target page (content scripts are not hot-reloaded)
 
 ### Project Structure
 
 ```
 Smart-Linkify/
-├── extension/            # Chrome Extension
-│   ├── manifest.json    # Extension configuration
-│   ├── background.js    # Background service script
-│   ├── content.js       # Content script (core conversion logic)
-│   ├── popup.html       # Popup UI
-│   ├── popup.css        # Popup styles
-│   ├── popup.js         # Popup logic
-│   ├── options.html     # Options page UI
-│   ├── options.css      # Options page styles
-│   ├── options.js       # Options page logic
-│   ├── welcome.html     # Welcome page
-│   └── icons/           # Icons folder (generated by scripts/generate-icons.js)
-│       ├── icon.svg     # Vector source of truth
-│       └── icon{16,32,48,96,128,256}.png
-├── website/             # Project website
-│   ├── index.html       # Homepage
-│   ├── css/
-│   │   └── style.css    # Styles
-│   ├── js/
-│   │   └── main.js      # Scripts
-│   └── images/          # Images
-└── docs/                # Documentation
-    ├── README.md
-    ├── INSTALL.md
-    ├── QUICKSTART.md
-    └── ...
+├── extension/                # Chrome extension (load this folder)
+│   ├── manifest.json
+│   ├── background.js         # Service worker: config migration, allow-list, badge
+│   ├── content.js            # Content script: DOM walking and conversion
+│   ├── lib/                  # Pure modules, directly testable in Node
+│   │   ├── linkify.js        # URL / email detection
+│   │   ├── dom-rules.js      # Exclusion rules
+│   │   └── config.js         # Config defaults (single source)
+│   ├── shared/               # Cross-page assets
+│   │   ├── tokens.css        # Design tokens (color/space/radius/motion)
+│   │   ├── theme.js          # Theme resolution (auto -> light/dark)
+│   │   └── link.css          # Injected link styles
+│   ├── popup.*               # Popup
+│   ├── options.*             # Options page
+│   ├── welcome.*             # First-run page
+│   └── icons/                # icon.svg is the vector source, PNG set is generated
+├── website/                  # Static marketing site
+├── test/                     # node:test unit tests
+├── scripts/                  # Version sync, git hooks, icon generation
+├── docs/superpowers/         # Design and analysis documents
+└── .github/workflows/ci.yml  # CI: tests / lint / type check
 ```
+
+### Tests and quality gates
+
+```bash
+npm test                     # node:test unit tests
+npx eslint .                 # ESLint
+npx tsc -p jsconfig.json     # JSDoc type check (covers extension/lib)
+```
+
+The project has no runtime dependencies, so the toolchain is intentionally not listed in `package.json`; `npx` fetches it on first use. CI (`.github/workflows/ci.yml`) runs all three on every PR, plus manifest JSON validity and version consistency.
 
 ### Version sync
 
@@ -155,24 +163,25 @@ The canonical version is the `version` field in `package.json`. Use `npm version
 
 ### Development Guidelines
 
--   Follow JavaScript ES6+ standards
--   Keep code concise and readable
--   Add necessary comments
--   Test new features on different websites
+-   Follow JavaScript ES6+ standards; put new logic in `extension/lib/` with unit tests
+-   Keep code concise and readable, comment where it matters
+-   Before committing, make sure `npm test`, `npx eslint .` and `npx tsc -p jsconfig.json` are green
+-   Test new features on real websites, especially `contenteditable` and Shadow DOM cases
+-   Route colors / spacing / motion through `extension/shared/tokens.css` — no hardcoded values
 
 ## 🐛 Known Issues
 
 -   Some websites using Shadow DOM may not work properly
 -   Rarely conflicts with other extensions
+-   Text-only updates that reuse an element (`element.textContent = …`) are covered by a `characterData` observer, but extremely fast-updating pages may still miss an occasional update
 
 ## 🗺️ Roadmap
 
+-   [ ] Replace `<all_urls>` with `optional_host_permissions` + on-demand injection to shrink the install-time permission prompt
 -   [ ] Support custom URL matching rules
 -   [ ] Add link preview feature
--   [ ] Support more protocols (like `ftp://`, `file://`)
--   [ ] Add statistics (show number of converted links)
--   [ ] Support internationalization (multiple languages)
--   [ ] Optimize performance, reduce processing time for large pages
+-   [ ] Support more protocols such as `file://`
+-   [ ] Process very large pages in batches to further reduce main-thread cost
 
 ## 📜 License
 
