@@ -94,9 +94,16 @@ main {
 	margin-top: var(--sl-space-3);
 }
 
-/* 帮助提示 */
-.help-tip {
+/* 帮助提示：tooltip 是 button 的兄弟节点（不是后代），
+   否则 button 的可及名会把说明文本一起吞进去 */
+.help-wrap {
 	position: relative;
+	display: inline-flex;
+	flex-shrink: 0;
+	align-items: center;
+}
+
+.help-tip {
 	display: inline-flex;
 	flex-shrink: 0;
 	align-items: center;
@@ -170,8 +177,9 @@ main {
 	margin-top: var(--sl-space-1-5);
 }
 
-.help-tip:hover .help-tip-text,
-.help-tip:focus .help-tip-text {
+/* 悬停整个 wrapper（含 tooltip 自身），键盘聚焦按钮时也显示 */
+.help-wrap:hover .help-tip-text,
+.help-tip:focus-visible + .help-tip-text {
 	opacity: 1;
 	visibility: visible;
 	pointer-events: auto;
