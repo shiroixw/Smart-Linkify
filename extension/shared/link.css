@@ -1,0 +1,22 @@
+/*
+ * 注入到宿主页面的链接样式
+ *
+ * 约定：
+ * - 只作用于 .smart-linkify-link，绝不改写宿主其它元素
+ * - 不覆盖宿主的 a 样式（无 !important、无 id 级选择器），站点仍可自行覆盖
+ * - 暗色跟随系统偏好，避免在深色站点上出现刺眼的深蓝链接
+ */
+
+a.smart-linkify-link {
+	color: #2563eb;
+	text-decoration: underline;
+	text-decoration-thickness: 1px;
+	text-underline-offset: 2px;
+	cursor: pointer;
+}
+
+@media (prefers-color-scheme: dark) {
+	a.smart-linkify-link {
+		color: #60a5fa;
+	}
+}
