@@ -121,7 +121,7 @@ vercel
 1. **导航栏** - 固定顶部导航
 2. **英雄区域** - 产品介绍和 CTA
 3. **功能特性** - 核心功能展示
-4. **实时演示** - 转换效果对比
+4. **实时演示** - 真实录屏（英文）：发布带裸链接的评论 → 链接当场可点
 5. **真实界面** - 弹出面板 / 设置页实拍截图
 6. **使用场景** - 应用场景说明
 7. **下载安装** - 安装指南
@@ -177,11 +177,19 @@ npm run sync-version
 | `images/icon512.png`、`images/apple-touch-icon.png`、`favicon.ico` | `npm run icons`（与扩展图标同源，改图标后重跑） |
 | `images/og-1280x640.png` | `marketing/out/library/og-1280x640-zh.png` |
 | `images/screen-popup.png`、`images/screen-options.png` | `marketing/assets/ui-popup-light.png`、`ui-options-light.png`（真实界面截图） |
+| `videos/demo-en.mp4`、`images/demo-poster.png` | 用 `marketing/assets/demo-record-en.html` 现场录制（Chrome 扩展真实转换，非后期合成） |
+
+### 重录演示视频
+
+1. 启动本地服务让页面可访问（扩展只对白名单域名生效，录制前把该域名加入白名单）
+2. 在 Chrome 里打开 `marketing/assets/demo-record-en.html`，视口设为 960×600
+3. 开始录屏 → 执行 `document.documentElement.dataset.demoStart = '1'` 触发脚本 → 等 9 秒后停止
+4. 产物替换 `videos/demo-en.mp4`，并重截一张结束态作为 `images/demo-poster.png`
 
 ## 🎯 待办事项
 
 -   [x] 添加真实界面截图
--   [ ] 添加演示视频
+-   [x] 添加演示录屏（英文）
 -   [ ] 添加用户评价区块
 -   [ ] 集成 Google Analytics
 -   [ ] 添加博客功能

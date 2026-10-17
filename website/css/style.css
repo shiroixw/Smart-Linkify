@@ -642,63 +642,27 @@ body {
 	background: var(--color-bg-subtle);
 }
 
-.demo-container {
-	display: grid;
-	grid-template-columns: 1fr auto 1fr;
-	gap: var(--space-8);
-	align-items: center;
-	max-width: 960px;
+.demo-video {
 	margin: 0 auto;
+	max-width: 960px;
 }
 
-.demo-before,
-.demo-after {
-	background: var(--color-bg);
-	padding: var(--space-8);
-	border-radius: var(--radius-md);
+.demo-video video {
+	display: block;
+	width: 100%;
+	height: auto;
+	border-radius: var(--radius-lg);
 	border: 1px solid var(--color-border);
+	box-shadow: var(--shadow-md);
+	background: var(--color-bg);
 }
 
-.demo-before h3,
-.demo-after h3 {
-	display: flex;
-	align-items: center;
-	gap: var(--space-2);
-	margin-bottom: var(--space-6);
+.demo-video figcaption {
+	margin-top: var(--space-4);
 	font-size: var(--text-sm);
-	font-weight: 600;
-	color: var(--color-text);
-	letter-spacing: var(--tracking-snug);
-	text-transform: uppercase;
-}
-
-.demo-before h3 i {
-	color: var(--color-text-subtle);
-}
-
-.demo-after h3 i {
-	color: var(--color-success);
-}
-
-.demo-content {
-	background: var(--color-bg-muted);
-	padding: var(--space-4);
-	border-radius: var(--radius);
-	font-size: var(--text-sm);
-	line-height: 2;
-}
-
-.demo-content a {
-	color: var(--color-accent);
-	text-decoration: underline;
-	text-underline-offset: 2px;
-}
-
-.demo-arrow {
-	font-size: 18px;
-	color: var(--color-text-subtle);
-	display: flex;
-	align-items: center;
+	line-height: var(--leading-relaxed);
+	color: var(--color-text-muted);
+	text-align: center;
 }
 
 /* ===== Screens（真实界面截图） ===== */
@@ -1233,15 +1197,6 @@ body {
 	}
 
 	.hero-stats {
-		justify-content: center;
-	}
-
-	.demo-container {
-		grid-template-columns: 1fr;
-	}
-
-	.demo-arrow {
-		transform: rotate(90deg);
 		justify-content: center;
 	}
 

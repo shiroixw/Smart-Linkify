@@ -61,17 +61,9 @@ const i18n = {
 			// 演示区域
 			'demo.title': '实时演示',
 			'demo.subtitle': '看看插件是如何工作的',
-			'demo.before': '转换前',
-			'demo.after': '转换后',
-			'demo.text1': '访问我们的网站 www.example.com 获取更多信息',
-			'demo.text2': '或发送邮件到 contact@example.com',
-			'demo.text3': '查看项目 https://github.com/example/project',
-			'demo.after.text1':
-				'访问我们的网站 <a href="http://www.example.com" target="_blank">www.example.com</a> 获取更多信息',
-			'demo.after.text2':
-				'或发送邮件到 <a href="mailto:contact@example.com">contact@example.com</a>',
-			'demo.after.text3':
-				'查看项目 <a href="https://github.com/example/project" target="_blank">https://github.com/example/project</a>',
+			'demo.video.alt': '录屏：在网页里发布带裸链接的评论，链接立即变为可点击',
+			'demo.caption':
+				'真实录屏：在网页里发布一条带裸链接的评论，链接当场变成可点击',
 
 			// 真实界面
 			'screens.title': '真实界面',
@@ -331,17 +323,10 @@ const i18n = {
 			// 演示区域
 			'demo.title': 'Live Demo',
 			'demo.subtitle': 'See how the extension works',
-			'demo.before': 'Before',
-			'demo.after': 'After',
-			'demo.text1': 'Visit our website www.example.com for more info',
-			'demo.text2': 'Or send email to contact@example.com',
-			'demo.text3': 'Check out https://github.com/example/project',
-			'demo.after.text1':
-				'Visit our website <a href="http://www.example.com" target="_blank">www.example.com</a> for more info',
-			'demo.after.text2':
-				'Or send email to <a href="mailto:contact@example.com">contact@example.com</a>',
-			'demo.after.text3':
-				'Check out <a href="https://github.com/example/project" target="_blank">https://github.com/example/project</a>',
+			'demo.video.alt':
+				'Screen recording: posting a comment with bare URLs, which turn into clickable links instantly',
+			'demo.caption':
+				'Real screen recording: post a comment with bare URLs and they become clickable on the spot',
 
 			// 真实界面
 			'screens.title': 'Inside the extension',

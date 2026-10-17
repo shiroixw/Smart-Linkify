@@ -12,7 +12,33 @@ document.addEventListener('DOMContentLoaded', function () {
 	initFAQ()
 	initSmoothScroll()
 	initAnimations()
+	initDemoVideo()
 })
+
+/** 演示录屏：按真实节奏回放，并尊重「减少动态效果」偏好 */
+const DEMO_VIDEO_RATE = 3
+
+function initDemoVideo() {
+	const video = document.querySelector('.demo-video video')
+	if (!video) return
+
+	// 录屏是按帧率写入的，原速播放会比真实操作慢，这里压缩回真实节奏
+	video.playbackRate = DEMO_VIDEO_RATE
+
+	if (prefersReducedMotion()) {
+		video.removeAttribute('autoplay')
+		video.pause()
+		return
+	}
+
+	// 部分环境（file:// 预览、无 MEI 的站点）会拦住 autoplay 属性，静音视频可显式 play
+	const played = video.play()
+	if (played && typeof played.catch === 'function') {
+		played.catch(function () {
+			/* 被浏览器策略拦下时保留 poster，用户可用原生控件播放 */
+		})
+	}
+}
 
 function prefersDark() {
 	return !!(window.matchMedia && window.matchMedia(DARK_MEDIA).matches)
