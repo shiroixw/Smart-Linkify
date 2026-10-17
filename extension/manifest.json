@@ -34,6 +34,12 @@
 			"all_frames": false
 		}
 	],
+	"web_accessible_resources": [
+		{
+			"resources": ["shared/link.css"],
+			"matches": ["<all_urls>"]
+		}
+	],
 	"options_page": "options.html",
 	"background": {
 		"service_worker": "background.js"

@@ -33,6 +33,19 @@
 	// 已处理的元素（WeakSet：不往页面 DOM 上写属性，避免污染宿主页面）
 	const processed = new WeakSet()
 
+	// 链接样式：只注入一次，样式表见 shared/link.css
+	const LINK_STYLE_ID = 'smart-linkify-style'
+	const LINK_CLASS = 'smart-linkify-link'
+
+	function ensureLinkStyle() {
+		if (document.getElementById(LINK_STYLE_ID)) return
+		const styleLink = document.createElement('link')
+		styleLink.id = LINK_STYLE_ID
+		styleLink.rel = 'stylesheet'
+		styleLink.href = chrome.runtime.getURL('shared/link.css')
+		;(document.head || document.documentElement).appendChild(styleLink)
+	}
+
 	// 从存储加载配置
 	function loadConfig() {
 		chrome.storage.sync.get(['config'], function (result) {
@@ -53,6 +66,7 @@
 
 	// 初始化
 	function init() {
+		ensureLinkStyle()
 		processNode(document.body)
 		sendLinkCount()
 		observeDOMChanges()
@@ -136,9 +150,7 @@
 				link.rel = 'noopener noreferrer'
 			}
 
-			link.style.color = '#0066cc'
-			link.style.textDecoration = 'underline'
-			link.setAttribute('data-auto-link', 'true')
+			link.className = LINK_CLASS
 
 			fragment.appendChild(link)
 			lastIndex = match.index + match.length
