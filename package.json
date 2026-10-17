@@ -6,7 +6,7 @@
 	"license": "MIT",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/xiaowulang-turbo/Smart-Linkify.git"
+		"url": "https://github.com/shiroixw/Smart-Linkify.git"
 	},
 	"keywords": [
 		"linkify",
@@ -35,6 +35,6 @@
 	},
 	"homepage": "https://smart-linkify.vercel.app/",
 	"bugs": {
-		"url": "https://github.com/xiaowulang-turbo/Smart-Linkify/issues"
+		"url": "https://github.com/shiroixw/Smart-Linkify/issues"
 	}
 }

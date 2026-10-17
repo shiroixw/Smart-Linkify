@@ -168,4 +168,4 @@
 
 -   官网：https://smart-linkify.vercel.app/
 -   问题反馈
-    ：https://github.com/xiaowulang-turbo/Smart-Linkify/issues
+    ：https://github.com/shiroixw/Smart-Linkify/issues

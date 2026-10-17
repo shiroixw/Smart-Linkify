@@ -1,7 +1,7 @@
 # ✍️ 智能超链接识别 (Smart Linkify – Instant hyperlink conversion)
 
-[![Chrome Extension](https://img.shields.io/badge/Chrome-Extension-4285F4?logo=googlechrome)](https://github.com/xiaowulang-turbo/Smart-Linkify)
-[![Version](https://img.shields.io/badge/Version-1.1.0-blue)](https://github.com/xiaowulang-turbo/Smart-Linkify/releases)
+[![Chrome Extension](https://img.shields.io/badge/Chrome-Extension-4285F4?logo=googlechrome)](https://github.com/shiroixw/Smart-Linkify)
+[![Version](https://img.shields.io/badge/Version-1.1.0-blue)](https://github.com/shiroixw/Smart-Linkify/releases)
 [![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
 
 > 🌐 简体中文 | [English](README.md)
@@ -42,7 +42,7 @@
 1. 克隆或下载本仓库：
 
     ```bash
-    git clone https://github.com/xiaowulang-turbo/Smart-Linkify.git
+    git clone https://github.com/shiroixw/Smart-Linkify.git
     ```
 
 2. 在 Chrome 浏览器中打开 `chrome://extensions`
@@ -97,7 +97,7 @@
 1. **克隆仓库:**
 
     ```bash
-    git clone https://github.com/xiaowulang-turbo/Smart-Linkify.git
+    git clone https://github.com/shiroixw/Smart-Linkify.git
     cd Smart-Linkify
     ```
 
@@ -217,8 +217,8 @@ SOFTWARE.
 
 ## 📞 联系方式
 
--   **项目主页:** [GitHub Repository](https://github.com/xiaowulang-turbo/Smart-Linkify)
--   **问题反馈:** [GitHub Issues](https://github.com/xiaowulang-turbo/Smart-Linkify/issues)
+-   **项目主页:** [GitHub Repository](https://github.com/shiroixw/Smart-Linkify)
+-   **问题反馈:** [GitHub Issues](https://github.com/shiroixw/Smart-Linkify/issues)
 -   **功能建议:** 欢迎通过 Issues 提出您的想法
 
 ---

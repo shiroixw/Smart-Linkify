@@ -1,7 +1,7 @@
 # ✍️ Smart Linkify – Instant hyperlink conversion
 
-[![Chrome Extension](https://img.shields.io/badge/Chrome-Extension-4285F4?logo=googlechrome)](https://github.com/xiaowulang-turbo/Smart-Linkify)
-[![Version](https://img.shields.io/badge/Version-1.1.0-blue)](https://github.com/xiaowulang-turbo/Smart-Linkify/releases)
+[![Chrome Extension](https://img.shields.io/badge/Chrome-Extension-4285F4?logo=googlechrome)](https://github.com/shiroixw/Smart-Linkify)
+[![Version](https://img.shields.io/badge/Version-1.1.0-blue)](https://github.com/shiroixw/Smart-Linkify/releases)
 [![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
 
 > 🌐 [简体中文](README.zh-CN.md) | English
@@ -42,7 +42,7 @@ Website source code is located in the `website/` directory.
 1. Clone or download this repository:
 
     ```bash
-    git clone https://github.com/xiaowulang-turbo/Smart-Linkify.git
+    git clone https://github.com/shiroixw/Smart-Linkify.git
     ```
 
 2. Open `chrome://extensions` in Chrome browser
@@ -97,7 +97,7 @@ All forms of contributions are welcome! If you want to participate in project de
 1. **Clone the repository:**
 
     ```bash
-    git clone https://github.com/xiaowulang-turbo/Smart-Linkify.git
+    git clone https://github.com/shiroixw/Smart-Linkify.git
     cd Smart-Linkify
     ```
 
@@ -217,8 +217,8 @@ Thanks to all developers and users who have contributed to this project!
 
 ## 📞 Contact
 
--   **Project Homepage:** [GitHub Repository](https://github.com/xiaowulang-turbo/Smart-Linkify)
--   **Issue Tracker:** [GitHub Issues](https://github.com/xiaowulang-turbo/Smart-Linkify/issues)
+-   **Project Homepage:** [GitHub Repository](https://github.com/shiroixw/Smart-Linkify)
+-   **Issue Tracker:** [GitHub Issues](https://github.com/shiroixw/Smart-Linkify/issues)
 -   **Feature Requests:** Welcome to share your ideas via Issues
 
 ---
