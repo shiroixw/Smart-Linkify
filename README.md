@@ -1,7 +1,7 @@
 # ✍️ Smart Linkify – Instant hyperlink conversion
 
 [![Chrome Extension](https://img.shields.io/badge/Chrome-Extension-4285F4?logo=googlechrome)](https://github.com/xiaowulang-turbo/Smart-Linkify)
-[![Version](https://img.shields.io/badge/Version-1.0.5-blue)](https://github.com/xiaowulang-turbo/Smart-Linkify/releases)
+[![Version](https://img.shields.io/badge/Version-1.1.0-blue)](https://github.com/xiaowulang-turbo/Smart-Linkify/releases)
 [![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
 
 > 🌐 [简体中文](README.zh-CN.md) | English
