@@ -32,23 +32,8 @@ document.addEventListener('DOMContentLoaded', function () {
 	const themeRadios = document.querySelectorAll('input[name="theme"]')
 	const langRadios = document.querySelectorAll('input[name="lang"]')
 
-	const defaultConfig = {
-		openInNewTab: true,
-		excludedTags: [
-			'SCRIPT',
-			'STYLE',
-			'NOSCRIPT',
-			'TEXTAREA',
-			'PRE',
-			'CODE',
-			'A',
-		],
-		whitelist: [],
-		theme: 'auto',
-		lang: 'auto',
-		strictMode: true,
-		excludeFileExt: true,
-	}
+	// 默认配置唯一来源（与 content / background 共用）
+	const defaultConfig = globalThis.SmartLinkifyConfig.createDefaultConfig()
 
 	// 加载配置
 	function loadConfig() {
