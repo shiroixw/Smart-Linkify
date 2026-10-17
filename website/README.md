@@ -21,7 +21,7 @@ website/
 │   ├── main.js         # 主题 / 导航 / FAQ / 滚动交互
 │   ├── i18n.js         # 中英文案
 │   └── changelog.js    # 更新日志渲染
-└── images/             # 图片资源
+└── images/             # 图片资源（品牌图标、OG 卡片、界面截图，见「品牌资产」）
 ```
 
 ## ✨ 功能特性
@@ -122,11 +122,12 @@ vercel
 2. **英雄区域** - 产品介绍和 CTA
 3. **功能特性** - 核心功能展示
 4. **实时演示** - 转换效果对比
-5. **使用场景** - 应用场景说明
-6. **下载安装** - 安装指南
-7. **文档资源** - 文档链接
-8. **FAQ** - 常见问题
-9. **页脚** - 链接和版权信息
+5. **真实界面** - 弹出面板 / 设置页实拍截图
+6. **使用场景** - 应用场景说明
+7. **下载安装** - 安装指南
+8. **文档资源** - 文档链接
+9. **FAQ** - 常见问题
+10. **页脚** - 链接和版权信息
 
 ## 🔧 维护
 
@@ -160,43 +161,30 @@ npm run sync-version
 
 -   ✅ 语义化 HTML 标签
 -   ✅ Meta 描述和关键词
--   ✅ Open Graph 标签（可添加）
--   ✅ 结构化数据（可添加）
+-   ✅ Open Graph / Twitter Card（`index.html` head 内，配图 1280×640）
+-   ✅ `theme-color` 与 apple-touch-icon
 -   ✅ 移动端友好
 -   ✅ 快速加载
 
-### 建议添加
+> OG 图的 `og:url` / `og:image` 必须是绝对地址，换域名时要同步改 head 里的 4 处链接。
 
-在 `<head>` 中添加：
+## 🎨 品牌资产
 
-```html
-<!-- Open Graph -->
-<meta property="og:title" content="智能超链接识别" />
-<meta
-	property="og:description"
-	content="自动将网页中的纯文本 URL 转换为可点击的超链接"
-/>
-<meta property="og:image" content="images/og-image.png" />
-<meta property="og:url" content="https://yourwebsite.com" />
+站点图片全部来自项目内生成流程，不要手工另存：
 
-<!-- Twitter Card -->
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="智能超链接识别" />
-<meta
-	name="twitter:description"
-	content="自动将网页中的纯文本 URL 转换为可点击的超链接"
-/>
-<meta name="twitter:image" content="images/twitter-card.png" />
-```
+| 文件 | 来源 |
+| --- | --- |
+| `images/icon512.png`、`images/apple-touch-icon.png`、`favicon.ico` | `npm run icons`（与扩展图标同源，改图标后重跑） |
+| `images/og-1280x640.png` | `marketing/out/library/og-1280x640-zh.png` |
+| `images/screen-popup.png`、`images/screen-options.png` | `marketing/assets/ui-popup-light.png`、`ui-options-light.png`（真实界面截图） |
 
 ## 🎯 待办事项
 
--   [ ] 添加更多截图和演示视频
--   [ ] 创建英文版本
+-   [x] 添加真实界面截图
+-   [ ] 添加演示视频
 -   [ ] 添加用户评价区块
 -   [ ] 集成 Google Analytics
 -   [ ] 添加博客功能
--   [ ] 创建更新日志页面
 
 ## 📞 联系方式
 

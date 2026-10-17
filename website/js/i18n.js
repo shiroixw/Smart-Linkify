@@ -24,9 +24,17 @@ const i18n = {
 			'hero.free': '免费',
 			'hero.opensource': '开源项目',
 			'hero.license': '许可证',
-			'hero.extension.name': '智能超链接识别',
-			'hero.extension.desc': '自动转换纯文本 URL 为可点击链接',
-			'hero.extension.enabled': '已启用',
+			// 首屏场景（网页 + 悬浮状态卡）
+			'hero.scene.eyebrow': '发布说明',
+			'hero.scene.title': 'v1.1.0 · 更稳的链接识别',
+			'hero.scene.body':
+				'修复了动态内容里漏转的链接，新增站点白名单与更严格的匹配规则。',
+			'hero.scene.link1':
+				'完整变更见 <a href="https://github.com/shiroixw/Smart-Linkify/releases" target="_blank" rel="noopener">github.com/shiroixw/Smart-Linkify/releases</a>',
+			'hero.scene.link2':
+				'遇到问题？<a href="https://github.com/shiroixw/Smart-Linkify/issues" target="_blank" rel="noopener">github.com/shiroixw/Smart-Linkify/issues</a>',
+			'hero.scene.chip.title': '本站已启用',
+			'hero.scene.chip.meta': '4 条链接已转换',
 
 			// 功能特性
 			'features.title': '核心功能',
@@ -64,6 +72,14 @@ const i18n = {
 				'或发送邮件到 <a href="mailto:contact@example.com">contact@example.com</a>',
 			'demo.after.text3':
 				'查看项目 <a href="https://github.com/example/project" target="_blank">https://github.com/example/project</a>',
+
+			// 真实界面
+			'screens.title': '真实界面',
+			'screens.subtitle': '插件里你每天会用到的两个界面',
+			'screens.popup': '弹出面板：本站一键开关，实时显示已转换链接数',
+			'screens.popup.alt': '弹出面板：本站开关与已转换链接统计',
+			'screens.options': '设置页：精确匹配、排除文件扩展名、站点白名单',
+			'screens.options.alt': '设置页：匹配精度与站点白名单',
 
 			// 使用场景
 			'usecases.title': '使用场景',
@@ -278,10 +294,17 @@ const i18n = {
 			'hero.free': 'Free',
 			'hero.opensource': 'Open Source',
 			'hero.license': 'License',
-			'hero.extension.name': 'Smart Linkify – Instant hyperlink conversion',
-			'hero.extension.desc':
-				'Auto-convert plain text URLs to clickable links',
-			'hero.extension.enabled': 'Enabled',
+			// 首屏场景（网页 + 悬浮状态卡）
+			'hero.scene.eyebrow': 'Release notes',
+			'hero.scene.title': 'v1.1.0 · steadier link detection',
+			'hero.scene.body':
+				'Fixes links missed in dynamic content, plus a site allow-list and stricter matching.',
+			'hero.scene.link1':
+				'Full changelog: <a href="https://github.com/shiroixw/Smart-Linkify/releases" target="_blank" rel="noopener">github.com/shiroixw/Smart-Linkify/releases</a>',
+			'hero.scene.link2':
+				'Found a bug? <a href="https://github.com/shiroixw/Smart-Linkify/issues" target="_blank" rel="noopener">github.com/shiroixw/Smart-Linkify/issues</a>',
+			'hero.scene.chip.title': 'Enabled on this site',
+			'hero.scene.chip.meta': '4 links converted',
 
 			// 功能特性
 			'features.title': 'Core Features',
@@ -319,6 +342,17 @@ const i18n = {
 				'Or send email to <a href="mailto:contact@example.com">contact@example.com</a>',
 			'demo.after.text3':
 				'Check out <a href="https://github.com/example/project" target="_blank">https://github.com/example/project</a>',
+
+			// 真实界面
+			'screens.title': 'Inside the extension',
+			'screens.subtitle': 'The two screens you will actually use every day',
+			'screens.popup':
+				'Popup: one switch for the current site, with a live converted-link count',
+			'screens.popup.alt':
+				'Popup: per-site switch and converted-link statistics',
+			'screens.options':
+				'Options: strict matching, excluded file extensions, allow-list',
+			'screens.options.alt': 'Options: matching precision and site allow-list',
 
 			// 使用场景
 			'usecases.title': 'Use Cases',
@@ -598,6 +632,16 @@ const i18n = {
 			const translation = this.t(key)
 			if (translation) {
 				el.setAttribute('aria-label', translation)
+			}
+		})
+
+		// 更新 img 的 alt 属性
+		const alts = document.querySelectorAll('[data-i18n-alt]')
+		alts.forEach((el) => {
+			const key = el.getAttribute('data-i18n-alt')
+			const translation = this.t(key)
+			if (translation) {
+				el.setAttribute('alt', translation)
 			}
 		})
 	},
