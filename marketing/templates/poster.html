@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<title>poster 1080×1440</title>
+<link rel="stylesheet" href="../promo.css">
+<style>
+	.canvas {
+		flex-direction: column;
+		align-items: stretch;
+		justify-content: flex-start;
+		padding: 88px 88px 72px;
+	}
+	.top { display: flex; align-items: center; gap: 16px; }
+	.top img { width: 60px; height: 60px; border-radius: 14px; }
+	.top .name { font-size: 24px; font-weight: 700; letter-spacing: -0.02em; }
+	.top .cn { font-size: var(--promo-small); color: var(--promo-ink-faint); letter-spacing: 0.04em; }
+	.middle { display: flex; flex-direction: column; gap: 26px; margin-top: 108px; }
+	.middle .h1 { --promo-h1: 68px; }
+	.rows { display: flex; flex-direction: column; gap: 0; margin-top: 8px; }
+	.row {
+		display: grid;
+		grid-template-columns: 64px 1fr;
+		gap: 20px;
+		padding: 26px 0;
+		border-top: 1px solid var(--promo-line);
+	}
+	.row:last-child { border-bottom: 1px solid var(--promo-line); }
+	.row .num {
+		font-size: 13px;
+		font-weight: 700;
+		letter-spacing: 0.08em;
+		color: var(--promo-accent);
+		padding-top: 5px;
+	}
+	.row h3 { margin: 0 0 6px; font-size: 22px; font-weight: 600; letter-spacing: -0.01em; }
+	.row p { margin: 0; font-size: 16px; line-height: 1.6; color: var(--promo-ink-muted); }
+	.proof { margin-top: 52px; }
+	.proof .browser { width: 100%; }
+	.proof .browser__viewport { height: 392px; }
+	.foot {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-top: auto;
+		padding-top: 40px;
+		font-size: 14px;
+		color: var(--promo-ink-faint);
+		letter-spacing: 0.02em;
+	}
+	.foot .badge {
+		padding: 7px 14px;
+		border-radius: var(--promo-radius-pill);
+		border: 1px solid var(--promo-line);
+	}
+</style>
+</head>
+<body>
+<div class="canvas canvas--1080-1440">
+	<div class="glow"></div>
+
+	<div class="top">
+		<img src="../../extension/icons/icon128.png" alt="">
+		<div>
+			<div class="name" data-copy="brand"></div>
+			<div class="cn" data-copy="brandCn"></div>
+		</div>
+	</div>
+
+	<div class="middle">
+		<h1 class="h1" data-copy="poster.title"></h1>
+		<p class="sub" data-copy="poster.sub"></p>
+
+		<div class="rows">
+			<div class="row">
+				<span class="num" data-copy="poster.rows.0.0"></span>
+				<div>
+					<h3 data-copy="poster.rows.0.1"></h3>
+					<p data-copy="poster.rows.0.2"></p>
+				</div>
+			</div>
+			<div class="row">
+				<span class="num" data-copy="poster.rows.1.0"></span>
+				<div>
+					<h3 data-copy="poster.rows.1.1"></h3>
+					<p data-copy="poster.rows.1.2"></p>
+				</div>
+			</div>
+			<div class="row">
+				<span class="num" data-copy="poster.rows.2.0"></span>
+				<div>
+					<h3 data-copy="poster.rows.2.1"></h3>
+					<p data-copy="poster.rows.2.2"></p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="proof">
+		<div class="browser">
+			<div class="browser__bar">
+				<div class="browser__dots"><i></i><i></i><i></i></div>
+				<div class="browser__url" data-url="blog.example.com/release-notes"></div>
+			</div>
+			<div class="browser__viewport">
+				<img data-img="demo" alt="">
+				<div class="browser__fade browser__fade--light"></div>
+			</div>
+		</div>
+	</div>
+
+	<div class="foot">
+		<span data-copy="poster.footer"></span>
+		<span class="badge">v1.0.5</span>
+	</div>
+</div>
+<script src="../copy.js"></script>
+<script src="../promo.js"></script>
+</body>
+</html>

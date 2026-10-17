@@ -40,6 +40,11 @@ const DESIGN = {
 	sizes: [16, 32, 48, 96, 128, 256],
 	/** 生成 SVG 时使用的参考画布尺寸 */
 	svgSize: 128,
+	/**
+	 * Chrome 应用商店专用图标：官方要求 128×128 画布上图形只占 96×96，
+	 * 四周各留 16px 透明边距（扩展包内仍用满幅版本）。
+	 */
+	storeIcon: { canvas: 128, art: 96 },
 };
 
 /** Lucide `link` 图标路径（stroke 型，viewBox 24×24，ISC License） */
@@ -459,6 +464,23 @@ ${GLYPH.paths.map((d) => `\t\t<path d="${d}"/>`).join('\n')}
 }
 
 // ---------------------------------------------------------------------------
+// 商店图标：图形 96×96 居中放进 128×128 透明画布
+// ---------------------------------------------------------------------------
+function renderStoreIcon() {
+	const { canvas, art } = DESIGN.storeIcon;
+	const artPixels = render(art);
+	const offset = (canvas - art) / 2;
+	const pixels = Buffer.alloc(canvas * canvas * 4); // 全透明
+
+	for (let y = 0; y < art; y++) {
+		const src = y * art * 4;
+		const dst = ((y + offset) * canvas + offset) * 4;
+		artPixels.copy(pixels, dst, src, src + art * 4);
+	}
+	return { pixels, canvas };
+}
+
+// ---------------------------------------------------------------------------
 // main
 // ---------------------------------------------------------------------------
 function main() {
@@ -470,6 +492,14 @@ function main() {
 		fs.writeFileSync(file, png);
 		console.log(`✓ ${path.relative(process.cwd(), file)}  ${size}×${size}  ${png.length} bytes`);
 	}
+
+	const store = renderStoreIcon();
+	const storeFile = path.join(OUT_DIR, `icon${store.canvas}-store.png`);
+	const storePng = encodePng(store.canvas, store.canvas, store.pixels);
+	fs.writeFileSync(storeFile, storePng);
+	console.log(
+		`✓ ${path.relative(process.cwd(), storeFile)}  ${store.canvas}×${store.canvas}（图形 ${DESIGN.storeIcon.art}）  ${storePng.length} bytes`
+	);
 
 	const svgFile = path.join(OUT_DIR, 'icon.svg');
 	fs.writeFileSync(svgFile, toSvg(), 'utf8');

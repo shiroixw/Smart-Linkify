@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<title>promo 440×280</title>
+<link rel="stylesheet" href="../promo.css">
+<style>
+	.canvas {
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: 14px;
+		text-align: center;
+		padding: 28px;
+		background: var(--promo-brand);
+	}
+	.rings {
+		position: absolute;
+		inset: 0;
+		background:
+			radial-gradient(340px 220px at 82% 12%, rgba(255, 255, 255, 0.22), transparent 68%),
+			radial-gradient(300px 200px at 6% 96%, rgba(255, 255, 255, 0.14), transparent 70%);
+	}
+	.plate {
+		position: relative;
+		padding: 13px;
+		border-radius: 26px;
+		background: rgba(255, 255, 255, 0.16);
+		border: 1px solid rgba(255, 255, 255, 0.24);
+	}
+	.mark { display: block; width: 68px; height: 68px; border-radius: 15px; }
+	.name {
+		position: relative;
+		font-size: 27px;
+		font-weight: 700;
+		letter-spacing: -0.02em;
+	}
+	.line {
+		position: relative;
+		font-size: 15px;
+		line-height: 1.5;
+		color: rgba(255, 255, 255, 0.86);
+	}
+</style>
+</head>
+<body>
+<div class="canvas canvas--440-280 brand-bg">
+	<div class="rings"></div>
+	<div class="plate"><img class="mark" src="../../extension/icons/icon128.png" alt=""></div>
+	<div class="name" data-copy="brand"></div>
+	<div class="line" data-copy="promo.tagline"></div>
+</div>
+<script src="../copy.js"></script>
+<script src="../promo.js"></script>
+</body>
+</html>
