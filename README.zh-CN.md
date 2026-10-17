@@ -161,9 +161,27 @@ npx tsc -p jsconfig.json     # JSDoc 类型检查（覆盖 extension/lib）
 4. 推送到分支 (`git push origin feature/FixUrlRegex`)
 5. 创建一个 Pull Request
 
-### 堆叠 PR
+### PR 拆分与依赖
 
-大改动拆成 PR 链时，用 GitHub 官方的 [`gh stack`](https://github.com/github/gh-stack) 扩展，不要手工设 base：
+默认：**一个 PR 一件事，base 全部指向 `main`。** 这样可以并行评审、任意顺序合并。
+
+只有依赖真实存在时才堆叠：
+
+| 情形 | 做法 |
+| --- | --- |
+| 两个改动互不依赖（只是都动了同一个文件） | 各开各的 PR，base 都是 `main` |
+| B 没合 A 就跑不起来 | 两层栈，A 先合并，B 随后 |
+| 只是担心合并冲突 | **不是堆叠的理由**，先合 A，再从 `main` 开 B |
+
+与工具无关的硬规矩：
+
+- **PR 已合并的分支不要再推提交。** 那些提交不属于任何 PR（我们踩过一次：看着都合了，`main` 里却没有）。要从 `main` 开新分支。
+
+> 堆叠的代价：合并变成有序；改下层会重写上层分支，force-push 后会撤销已有的 approval。所以栈要浅，只给真实依赖用。
+
+#### 附录：用 `gh stack` 管理依赖链
+
+GitHub 官方扩展负责机械部分：
 
 ```bash
 gh extension install github/gh-stack   # 一次性安装
@@ -174,10 +192,7 @@ gh stack sync                 # 下层 PR 合并后：级联 rebase、重新关�
 gh stack merge                # 自底向上一次性合并整个栈
 ```
 
-比工具更重要的两条规矩：
-
-- **PR 已合并的分支不要再推提交。** 那些提交不属于任何 PR（我们踩过：看着都合了，`main` 里却没有）。要从 `main` 开新分支。
-- 如果栈是手工建的，父 PR 合入后的收尾动作是 `gh pr edit <child> --base main`。
+`sync` 不是常驻程序——父 PR 合入后得有人跑一次。手工建的栈，收尾动作是 `gh pr edit <child> --base main`。
 
 ### 开发规范
 

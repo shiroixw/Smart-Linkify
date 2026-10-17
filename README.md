@@ -161,9 +161,27 @@ The canonical version is the `version` field in `package.json`. Use `npm version
 4. Push to the branch (`git push origin feature/FixUrlRegex`)
 5. Create a Pull Request
 
-### Stacked pull requests
+### Splitting PRs and dependencies
 
-Large changes are split into a PR chain using GitHub's first-party [`gh stack`](https://github.com/github/gh-stack) extension — no hand-rolled bases:
+Default: **one PR per change, every base is `main`.** PRs can then be reviewed in parallel and merged in any order.
+
+Stack pull requests only when the dependency is real:
+
+| Situation | What to do |
+| --- | --- |
+| Two changes are independent (they merely touch the same file) | Separate PRs, both based on `main` |
+| B cannot build or run without A | Two-layer stack: A merges first, then B |
+| You are only worried about merge conflicts | **Not a reason to stack** — merge A, then branch off `main` again |
+
+Hard rule, independent of tooling:
+
+- **Never push to a branch whose PR is already merged.** Those commits belong to no pull request (this bit us once: everything looked merged, yet `main` never received the change). Open a new branch from `main` instead.
+
+> Cost of stacking: merges become ordered, and updating a lower layer rewrites the layers above it — which force-pushes them and dismisses existing approvals. Keep stacks shallow, and only for real dependencies.
+
+#### Appendix: managing a stack with `gh stack`
+
+GitHub ships a first-party extension for the mechanical part:
 
 ```bash
 gh extension install github/gh-stack   # one-off
@@ -174,10 +192,7 @@ gh stack sync                 # after a lower PR merges: cascade rebase, re-link
 gh stack merge                # merge the stack bottom-up in one go
 ```
 
-Two rules that matter more than the tooling:
-
-- **Never push to a branch whose PR is already merged.** Those commits end up in no PR at all (this bit us: the work looked merged, yet `main` never got it). Open a new branch from `main` instead.
-- If a stack is created by hand, the closing move after the parent PR lands is `gh pr edit <child> --base main`.
+`sync` is not a daemon — someone has to run it after the parent PR lands. If a stack was created by hand, the closing move is `gh pr edit <child> --base main`.
 
 ### Development Guidelines
 
