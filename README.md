@@ -161,6 +161,39 @@ The canonical version is the `version` field in `package.json`. Use `npm version
 4. Push to the branch (`git push origin feature/FixUrlRegex`)
 5. Create a Pull Request
 
+### Splitting PRs and dependencies
+
+Default: **one PR per change, every base is `main`.** PRs can then be reviewed in parallel and merged in any order.
+
+Stack pull requests only when the dependency is real:
+
+| Situation | What to do |
+| --- | --- |
+| Two changes are independent (they merely touch the same file) | Separate PRs, both based on `main` |
+| B cannot build or run without A | Two-layer stack: A merges first, then B |
+| You are only worried about merge conflicts | **Not a reason to stack** — merge A, then branch off `main` again |
+
+Hard rule, independent of tooling:
+
+- **Never push to a branch whose PR is already merged.** Those commits belong to no pull request (this bit us once: everything looked merged, yet `main` never received the change). Open a new branch from `main` instead.
+
+> Cost of stacking: merges become ordered, and updating a lower layer rewrites the layers above it — which force-pushes them and dismisses existing approvals. Keep stacks shallow, and only for real dependencies.
+
+#### Appendix: managing a stack with `gh stack`
+
+GitHub ships a first-party extension for the mechanical part:
+
+```bash
+gh extension install github/gh-stack   # one-off
+gh stack init                 # start a stack from the current branch
+gh stack add <branch>         # stack another layer on top
+gh stack submit               # create/update the chain (each PR's base = the branch below it)
+gh stack sync                 # after a lower PR merges: cascade rebase, re-link, prune merged branches
+gh stack merge                # merge the stack bottom-up in one go
+```
+
+`sync` is not a daemon — someone has to run it after the parent PR lands. If a stack was created by hand, the closing move is `gh pr edit <child> --base main`.
+
 ### Development Guidelines
 
 -   Follow JavaScript ES6+ standards; put new logic in `extension/lib/` with unit tests
