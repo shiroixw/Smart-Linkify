@@ -10,7 +10,7 @@
 		module.exports = api
 	}
 	if (root) {
-		root.SmartLinkifyConfig = api
+		Object.assign(root, { SmartLinkifyConfig: api })
 	}
 })(typeof globalThis !== 'undefined' ? globalThis : this, function () {
 	'use strict'

@@ -9,7 +9,7 @@ const defaultConfig = globalThis.SmartLinkifyConfig.createDefaultConfig()
 chrome.runtime.onInstalled.addListener((details) => {
 	if (details.reason === 'install') {
 		chrome.storage.sync.set({ config: defaultConfig }, () => {
-			console.log('智能超链接识别插件已安装，默认配置已保存')
+			console.info('智能超链接识别插件已安装，默认配置已保存')
 		})
 		chrome.tabs.create({ url: 'welcome.html' })
 	} else if (details.reason === 'update') {

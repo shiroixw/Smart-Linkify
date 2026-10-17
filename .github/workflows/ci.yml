@@ -1,0 +1,37 @@
+name: CI
+
+on:
+    push:
+        branches: [main]
+    pull_request:
+
+jobs:
+    verify:
+        runs-on: ubuntu-latest
+        steps:
+            -   uses: actions/checkout@v4
+
+            -   uses: actions/setup-node@v4
+                with:
+                    node-version: 22
+
+            # 不写 package.json，避免把工具链耦合进运行时清单
+            -   name: Install tooling
+                run: npm install --no-save --no-package-lock eslint@9 typescript@5
+
+            -   name: Unit tests
+                run: npm test
+
+            -   name: Lint
+                run: npx eslint .
+
+            -   name: Type check (JSDoc + checkJs)
+                run: npx tsc -p jsconfig.json
+
+            -   name: Manifest is valid JSON
+                run: node -e "JSON.parse(require('fs').readFileSync('extension/manifest.json','utf8'));console.log('manifest ok')"
+
+            -   name: Version is in sync
+                run: |
+                    node scripts/sync-version.js
+                    git diff --exit-code

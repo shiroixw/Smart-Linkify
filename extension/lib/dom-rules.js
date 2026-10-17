@@ -11,7 +11,7 @@
 		module.exports = api
 	}
 	if (root) {
-		root.SmartLinkifyDomRules = api
+		Object.assign(root, { SmartLinkifyDomRules: api })
 	}
 })(typeof globalThis !== 'undefined' ? globalThis : this, function () {
 	'use strict'
